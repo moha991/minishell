@@ -1,65 +1,68 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+         #
+#    By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/08 17:58:48 by smagniny          #+#    #+#              #
-#    Updated: 2023/10/08 19:01:34 by smagniny         ###   ########.fr        #
+#    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
+#    Updated: 2023/10/16 09:22:35 by mohafnh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #COMP
-PROJECT = minishell
-CC = gcc -Wall -Werror -Wextra #-fsanitize=address -g3
-PATH_LIB = ./lib/libft
-LIBFT = ./lib/libft/libft.a
+NAME = minishell
+CC = gcc -Wall -Werror -Wextra 
 EXT_LIBS = -lreadline
-SRC = test.c
 
-#carpeta donde se guardaran los objetos .o
-OBJ_DIR = obj
-OBJ = $(addprefix $(OBJ_DIR)/,$(SRC:%.c=%.o))
+SRC =  test3.c   main.c ./bultin/cd.c #test.c test2.c
 
-# Reset color
-Color_Off=\033[0m       # Text Reset
-# Regular Colors
-Black=\033[0;30m
-Red=\033[0;31m
-Green=\033[0;32m
-Yellow=\033[0;33m
-Blue=\033[0;34m
-Purple=\033[0;35m
-Cyan=\033[0;36m
-White=\033[0;37m
+OBJS = ${SRC:.c=.o}
+## COLORS ##
+END = \033[0m
+RED = \033[1;31m
+GREEN = \033[1;32m
+YELLOW = \033[1;33m
+BLUE = \033[1;34m
+WHITE = \033[1;37m
 
-.PHONY: all lib clean fclean re
+## RULES ##
+all: libft $(NAME)
 
-all: $(PROJECT)
+libft:
+	@echo "$(NAME): $(BLUE)Generating... Just a minute$(RESET)"
+	@make -sC ./libft/srcs
+	@echo "$(NAME): $(GREEN)Done!$(RESET)"
 
-$(PROJECT): lib $(OBJ)
-	@$(CC) $(OBJ) -o $(PROJECT) $(LIBFT) $(EXT_LIBS)
-	@echo "$(Yellow)\tCOMPILATION\n$(Green)$(CC) $(OBJ) -o $(PROJECT) $(LIBFT) $(EXT_LIBS)"
+%.o : %.c 
+	@echo "${BLUE} ◎ $(YELLOW)Compiling   ${RED}→   $(WHITE)$< $(END)"
+	@$(CC) -c -o $@ $<
 
-$(OBJ_DIR)/%.o: %.c
-	@mkdir -p $(@D)
-	@$(CC) -c $< -o $@
-	@echo "$(Green)$< -> $@"
+$(NAME) : libft $(OBJS)
+	@make -sC ./libft/srcs
+	@$(CC) -o $(NAME) $(OBJS) -lreadline
+	clear
+	@echo "$(GREEN)You Created $(NAME)$(END)"
 
-lib:
-	@make -sC $(PATH_LIB)
-	@echo  "$(Yellow)\tLIBFT COMPILED"
 
-freelib:
-	@make fclean -sC $(PATH_LIB)
-	@echo  "$(Red)Libft Cleaned"
-
+## CLEANNING ##
 clean:
-	@echo "$(Red)\tDeleting objects..."
-	rm -rf $(OBJ_DIR)
+	@$(RM) $(OBJS)
+	@make clean -sC ./libft/srcs 
+	@echo "$(GREEN)$(NAME): $(RED)→ $(BLUE) Cleaning... $(END)"
+	@echo "$(GREEN)$(NAME): $(RED)→ $(YELLOW) the files(*.o) were deleted $(END)"
 
-fclean: clean freelib
-	rm -f $(PROJECT)
+## REMOVING .O FILES AND .A FILES ##
+fclean: clean
+	$(RM) $(NAME) $(OBJS) $(libft)
+	@make fclean -sC ./libft/srcs
+	@echo "$(GREEN)$(NAME): $(RED) → $(BLUE)was deleted$(END)"
 
+norm:
+	-@norminette  $(SRCS_PATH)
+	-@norminette  $(LIBS_PATH)
+
+## REMOVING AND RUNNING ##
 re: fclean all
+
+.PHONY: all re clean fclean norm

@@ -6,7 +6,7 @@
 /*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:50:53 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/10/16 15:21:22 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/10/17 19:17:48 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,9 @@
 # include <string.h>
 # include <unistd.h>
 # include <sys/wait.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
@@ -58,12 +61,21 @@ pid_t create_child_process();
 void handle_child_process(int pipefd[2]);
 void handle_parent_process(int pipefd[2]);
 void close_pipe(int pipefd[2]);
-void execute_command(char *input);
 void run_shell();
-void action_cd(const char *relative_path, char **start_directory);
-void replace_line(const char *new_line);
+void mostrar_comandos_permitidos();
+void obtener_dir();
+int replace_line(const char *new_line);
 
 
 
+// funciones de cd
 
+void handle_cd_error(const char *path);
+char *expand_tilde(const char *path);
+int change_directory(const char *path);
+char* cd(const char* path);
+
+int change_directory(const char *path);
+void change_directory_relative_or_absolute(const char *path);
+void execute_command_cd( char *input);
 # endif

@@ -6,7 +6,7 @@
 #    By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/10/16 17:36:18 by mohafnh          ###   ########.fr        #
+#    Updated: 2023/10/19 14:15:19 by mohafnh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 CC = gcc -Wall -Werror -Wextra 
 EXT_LIBS = -lreadline
 
-SRC =  test3.c   main.c ./bultin/cd.c path.c #test.c test2.c
+SRC =  test3.c   main.c ./bultin/cd.c  ./bultin/echo.c path.c #test.c test2.c
 
 OBJS = ${SRC:.c=.o}
 ## COLORS ##

@@ -6,7 +6,7 @@
 /*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:04:21 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/10/17 19:25:32 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/10/20 12:32:52 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void execute_command_cd( char *input) {
 
 
 int main(int argc, char **argv) {
-    const char *path = argv[1];
+    // const char *path = argv[1];
 	if (!argv || argc != 1)
 		return (EXIT_FAILURE);
 
     rl_initialize();
     run_shell();
 
-    change_directory_relative_or_absolute(path);
+    // change_directory_relative_or_absolute(path);
 
 
     // obtener_dir();

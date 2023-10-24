@@ -6,7 +6,7 @@
 /*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 11:50:53 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/10/20 12:55:01 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/10/24 17:21:06 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,18 @@
 
 
 # include <stdio.h>
+#include <fcntl.h>
 # include <stdlib.h>
 # include <string.h>
 # include <unistd.h>
-#include <stddef.h> // Incluye la librería para definir NULL
+# include <stddef.h> // Incluye la librería para definir NULL
 # include <sys/wait.h>
 #include <sys/types.h>
 #include <sys/stat.h>
-#include <fcntl.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
 # include <errno.h>
-# include <signal.h>
 # include "../libft/srcs/libft.h"
 # include "../libft/srcs/get_next_line.h"
 
@@ -74,7 +73,22 @@ typedef struct {
 } CommandEntry;
 
 
-void clear_current_line();
+typedef struct s_cmd
+{
+	char	*str;
+	char	*flags;
+	char	**args;
+	
+}	t_cmd;
+
+typedef struct	s_env
+{
+	char			*value;
+	struct s_env	*next;
+}				t_env;
+
+
+
 void execute_command_with_heredoc();
 void create_pipe(int pipefd[2]);
 pid_t create_child_process();
@@ -82,11 +96,6 @@ void handle_child_process(int pipefd[2]);
 void handle_parent_process(int pipefd[2]);
 void close_pipe(int pipefd[2]);
 void run_shell();
-void mostrar_comandos_permitidos();
-void obtener_dir();
-int replace_line(const char *new_line);
-
-
 
 // funciones de cd
 
@@ -100,8 +109,18 @@ void change_directory_relative_or_absolute(const char *path);
 void execute_command_cd( char *input);
 
 // funciones de echo
-int starts_with_echo(const char *input);
-char **split_input_into_words(const char *input);
+void starts_with_echo(char **input_str);
+void check_flags(char **args, int *flagecho);
+void    run_builtin (t_cmd *input_cmd);
+
+// funciones de pwd
+int pwd(char *path);
+
+// funciones de env
+int		env(t_env *env);
+
+// funciones de export
+int add_new_env(const char *value, t_env *env);
 
 // funciones de quoted
 char* remove_quotes_from_word(const char* word);

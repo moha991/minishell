@@ -72,6 +72,7 @@ int is_comando_permitido(char* input) {
     char *comandos_validos[] = {
         "cd",
         "ls",
+        "echo",
         NULL  // Un elemento nulo al final para indicar el final de la lista
     };
 
@@ -87,7 +88,8 @@ int is_comando_permitido(char* input) {
 
 // Esta función ejecuta un shell interactivo
 void run_shell() {
-    char *input;
+    char *input = NULL;
+
 
     while (1) {
         input = readline("> ");  // Lee la entrada del usuario
@@ -107,12 +109,20 @@ void run_shell() {
         if (strcmp(input, "cd") == 0) {
             const char* path = input + 3;  // Salta "cd " para obtener la ruta
             const char* cd_result = cd(path);  // Llama a la función cd para cambiar de directorio
-            if (cd_result != NULL) {
+            if (cd_result != 0) {
                 printf("Error al cambiar de directorio: %s\n", cd_result);  // Muestra un mensaje de error si no se puede cambiar de directorio
             }
             continue;  // No necesita ejecutar otros comandos después de "cd"
         }
-
+        if (strcmp(input, "pwd") == 0) {
+             char* path = input + 3;  // Salta "cd " para obtener la ruta
+             int pwd_result =  pwd(path);  // Llama a la función cd para cambiar de directorio
+            if (pwd_result != 0) {
+                printf("Error al cambiar de directorio: %d\n", pwd_result);  // Muestra un mensaje de error si no se puede cambiar de directorio
+            }
+            continue;  // No necesita ejecutar otros comandos después de "cd"
+        }
+       
         // Agrega el comando al historial y ejecuta el comando
         add_history(input);
         execute_command_cd(input);

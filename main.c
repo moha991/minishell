@@ -6,11 +6,12 @@
 /*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/14 13:04:21 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/10/20 12:32:52 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/10/23 09:50:18 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./include/minshell.h"
+
 void execute_command_cd( char *input) {
     // Divide la entrada en comando y argumentos
     char *comando = strtok(input, " \t\n"); // ****** se modificará *****
@@ -38,7 +39,7 @@ void execute_command_cd( char *input) {
     }
 }
 
-
+/* 
 int main(int argc, char **argv) {
     // const char *path = argv[1];
 	if (!argv || argc != 1)
@@ -51,5 +52,5 @@ int main(int argc, char **argv) {
 
 
     // obtener_dir();
-    return 0;
-}
+    return (0);
+} */

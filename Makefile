@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
 #    By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/10/19 14:15:19 by mohafnh          ###   ########.fr        #
+#    Updated: 2023/10/24 19:07:42 by mohafnh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,7 @@ NAME = minishell
 CC = gcc -Wall -Werror -Wextra 
 EXT_LIBS = -lreadline
 
-SRC =  test3.c   main.c ./bultin/cd.c  ./bultin/echo.c path.c #test.c test2.c
+SRC =  test3.c mian_test.c  main.c ./bultin/cd.c ./bultin/pwd.c ./bultin/env.c    path.c #test.c test2.c ./bultin/echo.c
 
 OBJS = ${SRC:.c=.o}
 ## COLORS ##
@@ -38,9 +38,9 @@ libft:
 	@echo "${BLUE} ◎ $(YELLOW)Compiling   ${RED}→   $(WHITE)$< $(END)"
 	@$(CC) -c -o $@ $<
 
-$(NAME) : libft $(OBJS)
-	@make -sC ./libft/srcs
-	@$(CC) -o $(NAME) $(OBJS) -lreadline
+$(NAME): libft $(OBJS)
+
+	@$(CC) -o $(NAME) $(OBJS) -lreadline ./libft/srcs/libft.a
 	clear
 	@echo "$(GREEN)You Created $(NAME)$(END)"
 
@@ -65,4 +65,4 @@ norm:
 ## REMOVING AND RUNNING ##
 re: fclean all
 
-.PHONY: all re clean fclean norm
+.PHONY: all libft re clean fclean norm

@@ -6,7 +6,7 @@
 #    By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/10/24 20:05:01 by smagniny         ###   ########.fr        #
+#    Updated: 2023/10/25 13:38:36 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,10 @@ NAME = minishell
 CC = gcc -Wall -Werror -Wextra 
 EXT_LIBS = -lreadline
 PATH_LIBFT = ./include/libft
+
 SRC =  maintest.c \
 	parser/lexer.c \
+	parser/utils_lexer.c \
 	builtin/cd.c \
 	builtin/echo.c \
 	builtin/env.c \

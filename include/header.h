@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/24 19:54:57 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/25 12:33:37 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,10 @@ typedef struct s_cmd
 
 
 //santi
-char	*set_spaces_operator(char *input);
 char	**unidentified_tokens(t_var *var);
 int		isingle_operator(char *line, int i);
 int		isdouble_operator(char *line, int i);
-
+char	*ft_copytoken(char *inputline, int *start, int *end);
 //moha
 void execute_command_with_heredoc();
 void create_pipe(int pipefd[2]);
@@ -72,7 +71,7 @@ void change_directory_relative_or_absolute(const char *path);
 void execute_command_cd( char *input);
 
 // funciones de echo
-void starts_with_echo(char **input_str);
+void	starts_with_echo(char **input_str);
 void check_flags(char **args, int *flagecho);
 void    run_builtin (t_cmd *input_cmd);
 
@@ -80,10 +79,10 @@ void    run_builtin (t_cmd *input_cmd);
 int pwd(char *path);
 
 // funciones de env
-int		env(t_env *env);
+// int		env(t_env *env);
 
 // funciones de export
-int add_new_env(const char *value, t_env *env);
+// int add_new_env(const char *value, t_env *env);
 
 // funciones de quoted
 char* remove_quotes_from_word(const char* word);

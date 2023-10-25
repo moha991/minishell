@@ -1,0 +1,7 @@
+Este archivo nos servira como historial de commentarios de commits.
+
+25/10/9
+He cambiado los headers includes.
+He procurado que mis funciones del parser pasen la norminette
+cambiar Makefile para que compile todos los arcihvos
+compila correctamente.

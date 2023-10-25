@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/17 18:34:27 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/10/24 19:09:10 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/10/25 12:30:54 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-#include "../include/minshell.h"
+#include "../include/header.h"
 
 // Función para manejar errores de 'cd'
 void handle_cd_error(const char *path) {
@@ -91,7 +91,7 @@ void change_directory_relative_or_absolute(const char *path) {
 
         char new_dir[PATH_MAX];
         // Construye la nueva ruta concatenando el directorio actual y el 'path' relativo.
-        snprintf(new_dir, sizeof(new_dir), "%s/%s", current_dir, path); // **** se modificara ******
+        ft_printf(new_dir, sizeof(new_dir), "%s/%s", current_dir, path); // **** se modificara ******
 
         if (change_directory(new_dir) == 0) {
             printf("Cambiado al directorio: %s\n", new_dir);  // Muestra un mensaje de éxito.

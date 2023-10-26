@@ -3,22 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   maintest.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/25 13:39:35 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:40:57 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/header.h"
 
-static  char    *get_inputline(t_var *var)
+static  void	get_inputline(t_var *var)
 {
 	char			*str;
 
-	(void)var;
-	ft_printf("$> ");
-	str = readline(NULL);
+	printf("\e[0;31m");
+	str = readline("\n(===||[\033[90m:::::::::::::::> \e[0;36m");
 	if (ft_strncmp(str, "clear", 5) == 0)
 	{
 		free(str);
@@ -26,8 +25,8 @@ static  char    *get_inputline(t_var *var)
 	}
 	if (ft_strncmp(str, "exit", 4) == 0)
 		exit(0);
-    add_history(str);
-	return (str);
+	var->inputline = ft_strdup(str);
+	add_history(var->inputline);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -38,17 +37,29 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	var.envp = envp;
-	var.len_tokens = 0;
+	var.nb_tokens = 0;
+	var.len_inputline = 0;
 	while (1)
 	{
 		i = -1;
-		var.inputline = get_inputline(&var);
-		var.u_tokens = unidentified_tokens(&var); //identificar cada palabra
-		while (++i < var.len_tokens)
-			printf("token: %s\n", var.u_tokens[i]);
-		//doublefree(var.u_tokens); !!!!!!!!!!!
-		//struct_parser();
-		//executor_of_the_tree_createdby_struct_parser();
+		get_inputline(&var);
+		unidentified_tokens(&var); //identificar cada palabra
+	
+		//imprimir la lista recien creada.
+		t_tokens *tmp;
+		tmp  = var.tokens;
+		while (tmp)
+		{
+			ft_printf("token %d: [%s]\n", ++i, tmp->token);
+			tmp = tmp->next;
+			var.nb_tokens++;
+		}
+		printf("number of to0oo0okens; %d\n", var.nb_tokens);
+		
+
+		//reiniciar la lista de tokens para prox commando y con ello el contador de tokens.
+		ft_lstcleartok(&var.tokens);
+		var.nb_tokens = 0;
 	}
 	return (0);
 }

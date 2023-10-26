@@ -3,14 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lexer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:19 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/25 12:29:07 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:42:29 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
+
+int	is_space_or_eof(int c)
+{
+	return (c == ' ' || c == '\0');
+}
+
+int	isdoublequote(int c)
+{
+	return (c == '\"');
+}
+
+int	issinglequote(int c)
+{
+	return (c == '\'');
+}
 
 int	isingle_operator(char *line, int i)
 {
@@ -23,24 +38,3 @@ int	isdouble_operator(char *line, int i)
 	return ((line[i] == '>' && line[(i + 1)] == '>')
 		|| (line[i] == '<' && line[(i + 1)] == '<'));
 }
-
-char	*ft_copytoken(char *inputline, int *start, int *end)
-{
-	char	*newtoken;
-
-	if (*start == *end)
-	{
-		if (inputline[*end] == '\n' || inputline[*end] == '\0')
-			return (NULL);
-		newtoken = ft_substr_startend(inputline, *start, (*end) + 1);
-		*start += 1;
-		return (newtoken);
-	}
-	else
-	{
-		newtoken = ft_substr_startend(inputline, *start, *end);
-		*start = *end;
-		return (newtoken);
-	}
-}
-

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+         #
+#    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/10/25 13:38:36 by smagniny         ###   ########.fr        #
+#    Updated: 2023/10/26 18:37:24 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,8 @@ PATH_LIBFT = ./include/libft
 SRC =  maintest.c \
 	parser/lexer.c \
 	parser/utils_lexer.c \
+	parser/parsequoting.c \
+	parser/lst_funcs.c \
 	builtin/cd.c \
 	builtin/echo.c \
 	builtin/env.c \

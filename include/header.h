@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/25 12:33:37 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:43:27 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,29 @@
 //moha includes
 # include <stddef.h> // Incluye la librería para definir NULL
 # include <sys/wait.h>
-#include <sys/types.h>
-#include <sys/stat.h>
+# include <sys/types.h>
+# include <sys/stat.h>
+
+
+# define SINGLEQ '\''
+# define DOUBLEQ '\"'
+
+typedef struct s_token_list
+{
+	char	*token;
+	struct s_token_list *next;
+}	t_tokens;
+
 
 typedef struct s_var
 {
-	char	**envp; //meter contenido del doble puntero a una lista enlazada de struct t_env
-	char	*inputline;
-	char	**u_tokens;
-	int		len_tokens;
+	char		**envp; //meter contenido del doble puntero a una lista enlazada de struct t_env
+	char		*inputline;
+	int			len_inputline;
+	t_tokens	*tokens;
+	int			nb_tokens;
 }	t_var;
+
 
 typedef struct s_cmd
 {
@@ -46,10 +59,19 @@ typedef struct s_cmd
 
 
 //santi
-char	**unidentified_tokens(t_var *var);
+
+void	unidentified_tokens(t_var *var);
+int		is_space_or_eof(int c);
 int		isingle_operator(char *line, int i);
 int		isdouble_operator(char *line, int i);
-char	*ft_copytoken(char *inputline, int *start, int *end);
+int		issinglequote(int c);
+int		isdoublequote(int c);
+//list tokenizer functions
+t_tokens	*ft_lstnewtok(char *content);
+void		ft_lstadd_backtok(t_tokens **lst, char *token_content);
+t_tokens	*ft_lstlasttok(t_tokens *lst);
+void 	ft_lstcleartok(t_tokens **lst);
+
 //moha
 void execute_command_with_heredoc();
 void create_pipe(int pipefd[2]);

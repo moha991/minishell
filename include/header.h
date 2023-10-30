@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/30 17:29:30 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/30 21:21:09 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int		isdoublequote(int c);
 t_tokens	*ft_lstnewtok(char *content);
 void		ft_lstadd_backtok(t_tokens **lst, t_tokens *new);
 t_tokens	*ft_lstlasttok(t_tokens *lst);
-void 	ft_lstcleartok(t_tokens **lst);
+void 		ft_lstcleartok(t_tokens **lst);
 
 //moha
 void execute_command_with_heredoc();

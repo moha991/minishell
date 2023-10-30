@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/30 17:59:29 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:07:13 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,11 @@ int	main(int argc, char **argv, char **envp)
 			tmp = tmp->next;
 			var.nb_tokens++;
 		}
-		printf("number of to0oo0okens; %d\n", var.nb_tokens);
-		
-
+		printf("number of tokens; %d\n", var.nb_tokens);
 		//reiniciar la lista de tokens para prox commando y con ello el contador de tokens.
 		ft_lstcleartok(&var.tokens);
 		var.nb_tokens = 0;
 	}
+	free(var.inputline);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 18:19:53 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/26 19:29:36 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:59:48 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_tokens	*ft_lstnewtok(char *content)
 }
 
 t_tokens	*ft_lstlasttok(t_tokens *lst)
-{	
+{
 	if (!lst)
 		return (NULL);
 	while (lst->next)
@@ -49,13 +49,13 @@ t_tokens	*ft_lstlasttok(t_tokens *lst)
 	return (lst);
 }
 
-void	ft_lstadd_backtok(t_tokens **lst, char *token_content)
+void	ft_lstadd_backtok(t_tokens **lst, t_tokens *new)
 {	
 	t_tokens	*ptr;
 
 	ptr = ft_lstlasttok(*lst);
 	if (ptr != NULL)
-		ptr->next = ft_lstnewtok(token_content);
+		ptr->next = new;
 	else
-		*lst = ft_lstnewtok(token_content);
+		*lst = new;
 }

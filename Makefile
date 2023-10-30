@@ -6,13 +6,13 @@
 #    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/10/26 18:37:24 by smagniny         ###   ########.fr        #
+#    Updated: 2023/10/30 17:01:07 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 #COMP
 NAME = minishell
-CC = gcc -Wall -Werror -Wextra 
+CC = gcc -Wall -Werror -Wextra -fsanitize=address -g
 EXT_LIBS = -lreadline
 PATH_LIBFT = ./include/libft
 

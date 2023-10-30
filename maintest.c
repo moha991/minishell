@@ -6,11 +6,18 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/26 19:40:57 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:59:29 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "include/header.h"
+
+static void		init_values(t_var *var)
+{
+	var->tokens = NULL;
+	var->nb_tokens = 0;
+	var->len_inputline = 0;
+}
 
 static  void	get_inputline(t_var *var)
 {
@@ -37,12 +44,11 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	var.envp = envp;
-	var.nb_tokens = 0;
-	var.len_inputline = 0;
 	while (1)
 	{
 		i = -1;
 		get_inputline(&var);
+		init_values(&var);
 		unidentified_tokens(&var); //identificar cada palabra
 	
 		//imprimir la lista recien creada.

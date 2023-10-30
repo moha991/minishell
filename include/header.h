@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/26 19:43:27 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/10/30 17:29:30 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int		issinglequote(int c);
 int		isdoublequote(int c);
 //list tokenizer functions
 t_tokens	*ft_lstnewtok(char *content);
-void		ft_lstadd_backtok(t_tokens **lst, char *token_content);
+void		ft_lstadd_backtok(t_tokens **lst, t_tokens *new);
 t_tokens	*ft_lstlasttok(t_tokens *lst);
 void 	ft_lstcleartok(t_tokens **lst);
 

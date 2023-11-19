@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_lexer.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:19 by smagniny          #+#    #+#             */
-/*   Updated: 2023/10/26 19:42:29 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/11/19 22:49:44 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	is_space_or_eof(int c)
 {
-	return (c == ' ' || c == '\0');
+	return ((c == ' ' || c == '\0') || c == '\t');
 }
 
 int	isdoublequote(int c)

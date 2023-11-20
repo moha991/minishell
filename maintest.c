@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maintest.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/20 20:46:19 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/11/20 22:08:02 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,17 +42,17 @@ int	main(int argc, char **argv, char **envp)
 	t_var	var;
 	int		i;
 
+	i = 0;
 	(void)argc;
 	(void)argv;
 	var.envp = envp;
 	while (1)
 	{
-		i = 0;
 		get_inputline(&var);
 		init_values(&var);
 		lexer(&var); //identificar cada palabra
 		//imprimir la lista recien creada.
-		// run_builtin(&var);
+		run_builtin(&var);
 		t_tokens *tmp;
 		tmp  = var.tokens;
 		while (tmp)
@@ -60,7 +60,6 @@ int	main(int argc, char **argv, char **envp)
 			ft_printf("token %d: [%s]\n", i++, tmp->token);
 			tmp = tmp->next;		
 		}
-		printf("number of tokens; %d\n", var.nb_tokens);
 		//reiniciar la lista de tokens para prox commando y con ello el contador de tokens.
 		ft_lstcleartok(&var.tokens);
 		var.nb_tokens = 0;

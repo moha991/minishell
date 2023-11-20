@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsequoting.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/20 20:23:13 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/11/20 22:19:56 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ char	*ft_strjoinfreee(char *s1, char *s2)
 	while (s2 && s2[j] != '\0')
 		new_str[i++] = s2[j++];
 	new_str[i] = '\0';
-	printf("ft_strjoin: %s\n", new_str);
 	if (s1)
 		free(s1);
 	if (s2)
@@ -49,13 +48,11 @@ char	*get_word(t_var *var, int *i, int *start)
 	// printf("get_word starting at letter %c w i:%d\n", var->inputline[*start], *i);
 	if (*i >= var->len_inputline)
 		return (NULL);
-	while (ft_isascii(var->inputline[*i]) && (!isdoublequote(var->inputline[*i]) && !issinglequote(var->inputline[*i]) && !is_space_or_eof(var->inputline[*i])))
+	while (ft_isascii(var->inputline[*i]) && (!isdoublequote(var->inputline[*i]) && !issinglequote(var->inputline[*i]) && !is_space_or_eof(var->inputline[*i]) 
+		&& !isingle_operator(var->inputline, *i) && !isdouble_operator(var->inputline, *i) && var->inputline[*i] != '='))
 		(*i)++;
 	if (*start < *i)
-	{
 		str = ft_substr(var->inputline, *start, *i - *start);
-		printf("str: %s", str);
-	}
 	*start = *i;
 	return (str);
 }
@@ -67,14 +64,14 @@ char	*get_str_doublequoted(t_var *var, int *i, int *start)
 	token_string = NULL;
 	// printf("getZ_str_singlequote: OK\n");
 	//!!!! ASUMIENDO QUE START=I; es decir que no hay letras antes de una comilla, tiene que haber un separador, ej; a 'a'a ( start)
-	printf("Entering DOUBLE w: st: %d  - i: %d\n", *start, *i);
+	// printf("Entering DOUBLE w: st: %d  - i: %d\n", *start, *i);
 	while ((*i) < var->len_inputline && ft_isascii(var->inputline[*i]) && !isdoublequote(var->inputline[*i]))
 		(*i)++;
 	if (*start != *i && *start < *i)
 		token_string = ft_substr(var->inputline, *start, (*i - *start));
-	printf("final result indexes --> start: %d     i: %d\n", *start, *i);
+	// printf("final result indexes --> start: %d     i: %d\n", *start, *i);
 	*start = ++(*i);
-	printf("final result Word ---> [%s] &i: %d st:%d\n", token_string, *i, *start);
+	// printf("final result Word ---> [%s] &i: %d st:%d\n", token_string, *i, *start);
 	return (token_string);
 }
 
@@ -85,16 +82,16 @@ char	*get_str_singlequoted(t_var *var, int *i, int *start)
 	token_string = NULL ;
 
 	 //!!!! ASUMIENDO QUE START=I; es decir que no hay letras antes de una comilla, tiene que haber un separador, ej; a 'a'a ( start)
-	printf("Entering SINGLE w: st: %d  - i: %d\n", *start, *i);
+	// printf("Entering SINGLE w: st: %d  - i: %d\n", *start, *i);
 	while ((*i) < var->len_inputline && ft_isascii(var->inputline[*i]) && !issinglequote(var->inputline[*i]))
 		(*i)++;
 	if (*start != *i && *start < *i)
 		token_string = ft_substr(var->inputline, *start, (*i - *start));
 	if (*token_string)
 	{
-		printf("final result indexes --> start: %d     i: %d\n", *start, *i);
+		// printf("final result indexes --> start: %d     i: %d\n", *start, *i);
 		*start = ++(*i);
-		printf("final result Word ---> [%s]\n", token_string);
+		// printf("final result Word ---> [%s]\n", token_string);
 		return (token_string);
 	}
 	else

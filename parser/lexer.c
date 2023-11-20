@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/19 23:07:47 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/11/20 22:30:32 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static	char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 {
 	char	*upd_token_string;
 
-	printf("check_word enter withs: %s && pos:[%c] && st: %d && len: %d\n", token_string, var->inputline[*start], *start, var->len_inputline);
+	//printf("check_word enter withs: %s && pos:[%c] && st: %d && len: %d\n", token_string, var->inputline[*start], *start, var->len_inputline);
 	if (isdoublequote(var->inputline[*i]))// si te encuentras una comilla.
 	{
 		// // if (i < var->len_inputline && isdoublequote(var->inputline[(i + 1)]))
@@ -24,7 +24,7 @@ static	char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 		{
 			(*i)++;
 			(*start) += 2;
-			printf("loop shift empty double quote at final pos %d && %d\n", (*start), *i);
+			//printf("loop shift empty double quote at final pos %d && %d\n", (*start), *i);
 			return (token_string);
 		}
 		else
@@ -40,7 +40,7 @@ static	char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 		{
 			(*i)++;
 			(*start) += 2;
-			printf("loop shift empty single quote at final pos %d:[%c]\n", (*start), var->inputline[*i]);
+			//printf("loop shift empty single quote at final pos %d:[%c]\n", (*start), var->inputline[*i]);
 			return (token_string);
 		}
 		else
@@ -59,10 +59,10 @@ static  int gnt_startpoint(t_var *var, int start)
 {
     int         i;
 	char		*token_string;
-	int			count;
+	int			word;
 
     i = 0;
-	count = 1;
+	word = 0;
 	token_string = NULL;
 	//primera verificacion anti-null || \0
     if ((var->inputline == NULL || *var->inputline == '\0')
@@ -74,55 +74,59 @@ static  int gnt_startpoint(t_var *var, int start)
     i = start;
     while (i < var->len_inputline && !is_space_or_eof(var->inputline[i]))//until a space or EOF
     {
-		printf("COUNT: %d\n", count++);
-        if (isdouble_operator(var->inputline, i) && start < i)// tokenize >> <<
+        if (isdouble_operator(var->inputline, i))// tokenize >> <<
         {
-			if (*token_string)
-				ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
+			if (word)
+				break ;
             i += 2;
 			token_string = ft_substr(var->inputline, start, i - start);
 			printf("token double operator: [%s]\n", token_string);
-            ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
+			start = i;
+			break ;
         }
-        else if (isingle_operator(var->inputline, i) && start < i)// tokenize > <
+        else if (isingle_operator(var->inputline, i))// tokenize > <
         {
-			if (*token_string)
-				ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
+			if (word)
+				break;
             i++;
 			token_string = ft_substr(var->inputline, start, i - start);
 			printf("token single operator: [%s]\n", token_string);
-			ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
+			start = i;
+			break ;
         }
 		else if (var->inputline[i] == '|')
 		{
-			if (*token_string)
-				ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
-			printf("st: %d 		i: %d\n", start, i);
+			if (word)
+				break ;
 			++i;
 			token_string = ft_substr(var->inputline, start, i - start);
-			printf("token operator: [%s]\n", token_string);
-			ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
+			printf("token PIPE operator: [%s]\n", token_string);
+			start = i;
+			break ;
 		}
-		else if ((i > 0) && var->inputline[i] == '=' && var->inputline[i - 1] != ' ')
+		else if (var->inputline[i] == '=' && var->inputline[i - 1] != ' ')
         {
+			if (word)
+				break ;
 			//questionable
-			token_string = ft_substr(var->inputline, start, i - start);
-			printf("ADDING TO LIST: [%s] w index=%d\n", token_string, i);
-        	ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
+			// printf("ADDING TO LIST: [%s] w index=%d\n", token_string, i);
+        	// ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
 			start = i++;
 			token_string = ft_substr(var->inputline, start, i - start);
 			printf("ADDING TO LIST: equal sign [%s] w index=%d\n", token_string, i);
-        	ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
-			start = i++;
+			start = i;
+			break ;
         }
 		else
         {
 			token_string = check_word_rec(var, &start, &i, token_string);
-			printf("word: %s\n", token_string);
+			word = 1;
+			//printf("word: %s\n", token_string);
         }
     }
     if (token_string != NULL && *token_string != '\0')
     {
+		word = 0;
 		printf("ADDING TO LIST final: [%s] w index=%d\n", token_string, i);
         ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
         var->nb_tokens++;
@@ -137,8 +141,6 @@ void	lexer(t_var *var)
 
 	start = 0;
 	while (start < var->len_inputline)
-	{
 		start = gnt_startpoint(var, start); // returns the index of the next character token.-
 		//printf("start loop: %d\n", start);
-	}
 }

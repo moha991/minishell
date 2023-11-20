@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maintest.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/19 22:23:27 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/11/20 20:46:19 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,16 +47,17 @@ int	main(int argc, char **argv, char **envp)
 	var.envp = envp;
 	while (1)
 	{
-		i = -1;
+		i = 0;
 		get_inputline(&var);
 		init_values(&var);
 		lexer(&var); //identificar cada palabra
 		//imprimir la lista recien creada.
+		// run_builtin(&var);
 		t_tokens *tmp;
 		tmp  = var.tokens;
 		while (tmp)
 		{
-			ft_printf("token %d: [%s]\n", ++i, tmp->token);
+			ft_printf("token %d: [%s]\n", i++, tmp->token);
 			tmp = tmp->next;		
 		}
 		printf("number of tokens; %d\n", var.nb_tokens);

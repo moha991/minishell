@@ -3,59 +3,104 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/10/25 12:34:06 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/11/19 15:58:11 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
-// #include "../include/header.h"
+#include "../include/header.h"
 
-// int add_new_env(char **env, const char *value) {
-//     // 1. Calcula el número de variables de entorno actuales.
-//     int env_count = 0;
-//     while (env[env_count] != NULL) {
-//         env_count++;
-//     }
 
-//     // 2. Crea un nuevo arreglo que sea una copia del original con espacio adicional para la nueva variable.
-//     char **new_env = (char **)malloc(sizeof(char *) * (env_count + 2));  // +2 para la nueva variable y NULL final
-//     if (!new_env) {
-//         return -1; // Error de asignación de memoria.
-//     }
+int	special_char(char c) // mirar las validas bien 
+{
+    if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+			|| (c >= '0' && c <= '9') || (c == '_')))
+	    return (0);
+    else 
+        return (1);
+}
 
-//     // 3. Copia las variables de entorno originales al nuevo arreglo.
-//     int i = 0;
-//     while (i < env_count) {
-//         new_env[i] = strdup(env[i]);
-//         if (!new_env[i]) {
-//             return -1; // Error de asignación de memoria.
-//         }
-//         i++;
-//     }
+void	error_identifier(char *identifier)
+{
+	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
+	ft_putstr_fd(identifier, STDERR_FILENO);
+	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+}
 
-//     // 4. Agrega la nueva variable de entorno al final del nuevo arreglo.
-//     new_env[env_count] = strdup(value);
-//     if (!new_env[env_count]) {
-//         return -1; // Error de asignación de memoria.
-//     }
+t_tokens	*new_env(char *id, char *value)
+{
+	t_tokens	*new;
 
-//     // 5. Establece el último elemento del nuevo arreglo como NULL para indicar el final.
-//     new_env[env_count + 1] = NULL;
+	if (!id || !value)
+		return (NULL);
+    new = malloc(sizeof(t_tokens));
+	if (!new)
+		return (NULL);
+    new->id = ft_strdup(id);
+    new->token = value;
+	new->next = NULL;
+	return (new);
+}
 
-//     // 6. Libera la memoria del antiguo arreglo.
-//     i = 0;
-//     while (i < env_count) {
-//         free(env[i]);
-//         i++;
-//     }
-//     free(env);
 
-//     // 7. Asigna el nuevo arreglo a la variable de entorno original.
-//     *env = new_env;
+t_tokens	*set_env(t_tokens **env, char *id, char *value)
+{
+	t_tokens	*new;
+	t_tokens	*last;
 
-//     // 8. Devuelve 0 para indicar que la operación de agregar fue exitosa.
-//     return 0;
-// }
+	new = get_env(*env, id);
+	if (new)
+	{
+		free(new->token);
+		new->token = value;
+		return (new);
+	}
+	new = new_env(id, value);
+	if (!new)
+		return (NULL);
+	if (*env)
+	{
+		last = *env;
+		while (last->next)
+			last = last->next;
+		last->next = new;
+	}
+	else
+		*env = new;
+	return (new);
+}
+
+/* int export(t_var *var)
+{
+    int	i;
+    t_tokens *tokens;
+    char       *id;
+    
+    
+    i = 0;
+    id = NULL;
+    tokens = var->tokens->next;
+    while(tokens && tokens->token[i])
+    {
+        while (tokens && tokens->token[i] != '=')
+        {
+            if (special_char(tokens->token[i]))
+                return (error_identifier(&tokens->token[i]), EXIT_FAILURE);
+            i++;
+        }
+        if (i == 0)
+			return (error_identifier(&tokens->token[i]), EXIT_FAILURE);
+        id = ft_substr(tokens->token, 0, i);
+        if (tokens->token[i])
+		{
+			tokens->token[i] = '\0';
+			if (!set_env(env, id, ft_strdup(&tokens->token[i + 1])))
+				return (EXIT_FAILURE);
+		}
+		i++;
+    }
+    return (EXIT_SUCCESS);
+} */

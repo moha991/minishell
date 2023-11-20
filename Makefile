@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
+#    By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/10/30 17:01:07 by smagniny         ###   ########.fr        #
+#    Updated: 2023/11/20 20:12:52 by mohafnh          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,6 +26,10 @@ SRC =  maintest.c \
 	builtin/env.c \
 	builtin/export.c \
 	builtin/pwd.c \
+	builtin/bultins_utils.c \
+	builtin/run_builtins.c \
+	executor/exec_utils.c \
+	executor/executor.c \
 
 OBJS = ${SRC:.c=.o}
 ## COLORS ##

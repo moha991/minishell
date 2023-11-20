@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/24 09:36:16 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/11/19 21:50:49 by mohafnh          ###   ########.fr       */
+/*   Created: 2023/11/19 16:55:31 by mohafnh           #+#    #+#             */
+/*   Updated: 2023/11/19 21:51:04 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-int	env(t_var *var)
-{
-	int	i;
-	int	len;
 
-	i = -1;
-	len = ft_lendb(var->envp);
-	if (var->tokens->token != NULL)
+/* void    executor(t_var *cmd, char **envp, int infile, int outfile)
+{
+    pid_t	pid;
+
+	pid = ft_fork();
+    if (pid == 0)
 	{
-		while (++i < len)
-		{
-			ft_putendl_fd(var->envp[i], 1);
-			ft_putchar_fd('\n', 1);
-		}
+		ft_infile(ps, infile);
+		ft_outfile(ps, outfile);
+		if (execve(ps->pth_cmd, ps->cmd, envp) == -1)
+			exit(0);
 	}
-	return (0);
-}
+    
+} */

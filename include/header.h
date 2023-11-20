@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/19 17:11:06 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/11/20 20:38:05 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,20 @@
 
 typedef struct s_token_list
 {
-	char	*token;
-	struct s_token_list *next;
+	char				*token;
+	char				*id;
+	struct s_token_list	*next;
 }	t_tokens;
 
 
 typedef struct s_var
 {
-	char		**envp; //meter contenido del doble puntero a una lista enlazada de struct t_env
+	char		**cmd;		//bloque cmd
+	char		**infile;	//bloque de entrada
+	char		**outfile;	//bloque de salida
+	char		**dl_hd;	//Delmitadores el heredoc
+	char		*tmp;		//nombre dle archivo tmp
+	char		**envp;
 	char		*inputline;
 	int			len_inputline;
 	t_tokens	*tokens;
@@ -50,12 +56,7 @@ typedef struct s_var
 }	t_var;
 
 
-// typedef struct s_cmd
-// {
-// 	char	*str;
-// 	char	*flags;
-// 	char	**args;
-// }	t_cmd;
+
 
 
 //santi
@@ -78,28 +79,48 @@ t_tokens	*ft_lstlasttok(t_tokens *lst);
 void 		ft_lstcleartok(t_tokens **lst);
 
 //moha
+void		execute_command_with_heredoc();
+void		create_pipe(int pipefd[2]);
+pid_t		create_child_process();
+void		handle_child_process(int pipefd[2]);
+void	handle_parent_process(int pipefd[2]);
+void	close_pipe(int pipefd[2]);
+void		run_shell();
 
 // funciones de cd
-
-void handle_cd_error(const char *path);
-char *expand_tilde(const char *path);
-int change_directory(const char *path);
-char* cd(const char* path);
-
-void change_directory_relative_or_absolute(const char *path);
+int		cd(t_tokens *tokens);
 
 // funciones de echo
-void	starts_with_echo(char **input_str);
-void check_flags(char **args, int *flagecho);
+void	starts_with_echo(t_tokens *tokens);
+t_tokens	*check_flags(t_tokens **tokens, int *flagecho);
+void 	run_builtin(t_var *var);
+int	check_flagn(t_tokens **tokens);
 
 // funciones de pwd
-int pwd(char *path);
+int		pwd(char *path);
 
 // funciones de env
-// int		env(t_env *env);
+int		env(t_var *var);
 
 // funciones de export
-// int add_new_env(const char *value, t_env *env);
+int export(t_var *var);
+void	error_identifier(char *identifier);
+t_tokens	*new_env(char *id, char *value);
 
+// funciones de quoted
+char	*remove_quotes_from_word(const char	*word);
+
+// funciones utiles 
+size_t	ft_strspn(const char *str, const char *accept);
+
+t_tokens	*get_env(t_tokens *var, char *id);
+t_tokens	*set_env(t_tokens **env, char *id, char *value);
+int	ft_strcmp(const char *s1, const char *s2);
+
+// Funciones executor
+
+
+
+// funciones utiles executor
 // funciones de quoted
 #endif

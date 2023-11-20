@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsequoting.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/19 22:52:28 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/11/20 20:23:13 by mohafnh          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	*get_word(t_var *var, int *i, int *start)
 		(*i)++;
 	if (*start < *i)
 	{
-		str = ft_substr_startend(var->inputline, *start, *i);
+		str = ft_substr(var->inputline, *start, *i - *start);
 		printf("str: %s", str);
 	}
 	*start = *i;
@@ -82,10 +82,11 @@ char	*get_str_doublequoted(t_var *var, int *i, int *start)
 char	*get_str_singlequoted(t_var *var, int *i, int *start)
 {
 	char	*token_string;
+	token_string = NULL ;
 
 	 //!!!! ASUMIENDO QUE START=I; es decir que no hay letras antes de una comilla, tiene que haber un separador, ej; a 'a'a ( start)
 	printf("Entering SINGLE w: st: %d  - i: %d\n", *start, *i);
-	while ((*i) < var->len_inputline && isascii(var->inputline[*i]) && !issinglequote(var->inputline[*i]))
+	while ((*i) < var->len_inputline && ft_isascii(var->inputline[*i]) && !issinglequote(var->inputline[*i]))
 		(*i)++;
 	if (*start != *i && *start < *i)
 		token_string = ft_substr(var->inputline, *start, (*i - *start));

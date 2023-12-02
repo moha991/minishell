@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mfornah <mfornah@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 03:41:02 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/11/02 17:13:40 by mfornah          ###   ########.fr       */
+/*   Updated: 2023/11/23 14:57:35 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int	pwd(char *path)
 		perror("Error al obtener el directorio actual");
 		return (1);
 	}
-
 	printf("%s\n", path);
 	free(path);
 	return (0);

@@ -1,12 +1,12 @@
 Este archivo nos servira como historial de commentarios de commits.
 
-25/10/9
+25/10
 He cambiado los headers includes.
 He procurado que mis funciones del parser pasen la norminette
 cambiar Makefile para que compile todos los arcihvos
 compila correctamente.
 
-26/10/9
+26/10
 he añadido el parseo por SINGLE and DOUBLE quotes. (por mejorar)
 ahora los tokens de commandos/flags/params/operadores estan en una lista enlazada.
 Procuro reinitializar esa lista (liberar memoria) para reutilizar el puntero en la proxima entrada de commando.
@@ -14,6 +14,10 @@ falta por testear.
 He cambiado el prompt por un cuchillo por que la shell va sangrar de tantos tests.
 Compila corrrectamente.
 
+27/11
+
+-arreglar el echo sin args
+-fuertes dudas con la expansion de $?
 
 # **************************************************************************** #
 #                                COMPARE PARSING                               #

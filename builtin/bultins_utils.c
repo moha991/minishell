@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   bultins_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 19:52:26 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/11/16 11:10:21 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/11/30 12:59:57 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char	*get_current_working_directory(char *cwd)
 		return (NULL);
 	}
 }
-
 
 size_t	ft_strspn(const char *str, const char *accept)
 {
@@ -53,22 +52,6 @@ size_t	ft_strspn(const char *str, const char *accept)
 		s++;
 	}
 	return (count);
-}
-
-t_tokens	*get_env(t_tokens *var, char *id)
-{
-	t_tokens	*tmp;
-
-	if (!id)
-		return (NULL);
-	tmp = var;
-	while (tmp)
-	{
-		if (ft_strcmp(tmp->token, id) == 0)
-			return (tmp);
-		tmp = tmp->next;
-	}
-	return (NULL);
 }
 
 int	ft_strcmp(const char *s1, const char *s2)

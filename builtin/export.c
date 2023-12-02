@@ -3,104 +3,127 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/11/19 15:58:11 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/12/01 17:48:51 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../include/header.h"
 
-
-int	special_char(char c) // mirar las validas bien 
-{
-    if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
-			|| (c >= '0' && c <= '9') || (c == '_')))
-	    return (0);
-    else 
-        return (1);
-}
-
-void	error_identifier(char *identifier)
+static	int	error_identifier(char *identifier)
 {
 	ft_putstr_fd("minishell: export: `", STDERR_FILENO);
 	ft_putstr_fd(identifier, STDERR_FILENO);
 	ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+	return (1);
 }
 
-t_tokens	*new_env(char *id, char *value)
+static	int	isvalid_namevar(char *name) //comprobar que el name de la variable sea alphanum o lowercase. 
 {
-	t_tokens	*new;
+	int	i;
 
-	if (!id || !value)
-		return (NULL);
-    new = malloc(sizeof(t_tokens));
-	if (!new)
-		return (NULL);
-    new->id = ft_strdup(id);
-    new->token = value;
-	new->next = NULL;
-	return (new);
-}
-
-
-t_tokens	*set_env(t_tokens **env, char *id, char *value)
-{
-	t_tokens	*new;
-	t_tokens	*last;
-
-	new = get_env(*env, id);
-	if (new)
-	{
-		free(new->token);
-		new->token = value;
-		return (new);
-	}
-	new = new_env(id, value);
-	if (!new)
-		return (NULL);
-	if (*env)
-	{
-		last = *env;
-		while (last->next)
-			last = last->next;
-		last->next = new;
-	}
-	else
-		*env = new;
-	return (new);
-}
-
-/* int export(t_var *var)
-{
-    int	i;
-    t_tokens *tokens;
-    char       *id;
-    
-    
-    i = 0;
-    id = NULL;
-    tokens = var->tokens->next;
-    while(tokens && tokens->token[i])
+	i = 0;
+	if (!name)
+		return (1);
+	while (name[i] != '\0')
     {
-        while (tokens && tokens->token[i] != '=')
-        {
-            if (special_char(tokens->token[i]))
-                return (error_identifier(&tokens->token[i]), EXIT_FAILURE);
-            i++;
-        }
-        if (i == 0)
-			return (error_identifier(&tokens->token[i]), EXIT_FAILURE);
-        id = ft_substr(tokens->token, 0, i);
-        if (tokens->token[i])
-		{
-			tokens->token[i] = '\0';
-			if (!set_env(env, id, ft_strdup(&tokens->token[i + 1])))
-				return (EXIT_FAILURE);
-		}
+		if (!ft_isalnum(name[i]) && !(name[i] == '_'))
+        	return (error_identifier(name), EXIT_FAILURE);
 		i++;
-    }
-    return (EXIT_SUCCESS);
-} */
+	}
+	return (0);
+}
+
+
+static	int append_to_env(t_var *var, char *name, char *value, int flag)
+{
+	char 	**new_env;
+	int		env_count;
+	int		i;
+	char	*tmp;
+	int		exist_already;
+
+	env_count = 0; //primer contador
+	i = -1; //segunda contador
+	exist_already = 0; // 0 esque no existe y 1 es que ya existe.
+	tmp = NULL;//frase a anadir
+	new_env = NULL;// puntero de nuevas var entorno.
+	if (!flag)
+		tmp = ft_strjoinfrees2(name, value);
+	else
+		tmp = name;
+	while (var->envp[env_count])
+	{
+		if (ft_strncmp(var->envp[env_count], name, ft_strlen(name)) == 0)
+		{
+			if (!flag)
+				var->envp[env_count] = tmp;
+			exist_already = 1;
+			free(name);
+		}
+		env_count++;
+	}
+	if (exist_already)
+	{
+		printf("has actualizado $%s\n", tmp);
+		return (0);
+	}
+    // Allocate
+    new_env = (char **)malloc((env_count + 2) * sizeof(char *));
+    if (!new_env)
+	{
+        perror("malloc\n");
+        exit(EXIT_FAILURE);
+	}
+	while (++i < env_count)
+		new_env[i] = var->envp[i];
+    // anadir linea
+    new_env[env_count] = tmp;
+    new_env[env_count + 1] = NULL;
+	printf("has anadido $%s\n", tmp);
+	if (!exist_already)
+		free(name);
+    // actualizar puntero original
+	doublefree(var->envp);
+    var->envp = new_env;
+    return ();
+}
+
+/* 
+export [name[=value]]
+*/
+
+int export(t_var *var)
+{
+    char       	*var_name;
+	char		*var_value;
+    t_tokens 	*tokens;
+    
+	var_name = NULL;
+	var_value = NULL;
+	tokens = var->tokens->next; // token despues del token:'export' con el nombre de la var de entorno. (se supone, puede haber operador)
+	if (!tokens || isdouble_operator(tokens->token, 0) || isingle_operator(tokens->token, 0))
+		return (env(var));  // ejecutar export sin args, mostrar env.
+	while (tokens && (!isdouble_operator(tokens->token, 0) || !isingle_operator(tokens->token, 0)))
+	{
+		if (isvalid_namevar(tokens->token))// verificar que sea alphanum o '_'
+			return (1);
+		printf("Valid name for export: [%s]\n", tokens->token);
+		var_name = ft_strjoin(tokens->token, "=");
+		tokens = tokens->next;// token '='
+		if (tokens && ft_strncmp(tokens->token, "=", 1) == 0)
+		{
+			tokens = tokens->next; // string after '='. Is the value of var_name.
+			var_value = ft_strdup(tokens->token);
+			printf("Value of %s: [%s]\n", var_name, tokens->token);
+			append_to_env(var, var_name, var_value, 0);// anade la var_name con su valor.
+			tokens = tokens->next;
+		}
+		else
+			append_to_env(var, var_name, var_value, 1); // anade la var_name sin valor
+	}
+	return (0);
+}
+

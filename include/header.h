@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/20 20:38:05 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/11/30 01:25:46 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,6 @@ int		env(t_var *var);
 
 // funciones de export
 int export(t_var *var);
-void	error_identifier(char *identifier);
-t_tokens	*new_env(char *id, char *value);
 
 // funciones de quoted
 char	*remove_quotes_from_word(const char	*word);

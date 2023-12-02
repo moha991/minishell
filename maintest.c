@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/20 22:08:02 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/01 17:41:45 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,16 @@ static  void	get_inputline(t_var *var)
 		clear_history();
 	}
 	if (ft_strncmp(str, "exit", 4) == 0)
+	{	
+		doublefree(var->envp);
 		exit(0);
+	}
 	var->inputline = ft_strdup(str);
 	free(str);
 	add_history(var->inputline);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv,const char **envp)
 {
 	t_var	var;
 	int		i;
@@ -45,8 +48,8 @@ int	main(int argc, char **argv, char **envp)
 	i = 0;
 	(void)argc;
 	(void)argv;
-	var.envp = envp;
-	while (1)
+	var.envp = copy_2d_array(envp);
+	while (42)
 	{
 		get_inputline(&var);
 		init_values(&var);
@@ -65,5 +68,6 @@ int	main(int argc, char **argv, char **envp)
 		var.nb_tokens = 0;
 		free(var.inputline);
 	}
+	doublefree(var.envp);
 	return (0);
 }

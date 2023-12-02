@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+         #
+#    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/11/20 20:12:52 by mohafnh          ###   ########.fr        #
+#    Updated: 2023/12/02 18:12:38 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ EXT_LIBS = -lreadline
 PATH_LIBFT = ./include/libft
 
 SRC =  maintest.c \
+	env/ft_env.c \
 	parser/lexer.c \
 	parser/utils_lexer.c \
 	parser/parsequoting.c \
@@ -25,6 +26,7 @@ SRC =  maintest.c \
 	builtin/echo.c \
 	builtin/env.c \
 	builtin/export.c \
+	builtin/unset.c \
 	builtin/pwd.c \
 	builtin/bultins_utils.c \
 	builtin/run_builtins.c \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/01 17:48:51 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/02 17:21:09 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,64 +36,43 @@ static	int	isvalid_namevar(char *name) //comprobar que el name de la variable se
 	return (0);
 }
 
-
 static	int append_to_env(t_var *var, char *name, char *value, int flag)
 {
-	char 	**new_env;
-	int		env_count;
-	int		i;
 	char	*tmp;
 	int		exist_already;
-
-	env_count = 0; //primer contador
-	i = -1; //segunda contador
+	t_env	*tmp_node;
+	
 	exist_already = 0; // 0 esque no existe y 1 es que ya existe.
 	tmp = NULL;//frase a anadir
-	new_env = NULL;// puntero de nuevas var entorno.
+	tmp_node = var->envp;
 	if (!flag)
 		tmp = ft_strjoinfrees2(name, value);
 	else
 		tmp = name;
-	while (var->envp[env_count])
+	while (tmp_node)
 	{
-		if (ft_strncmp(var->envp[env_count], name, ft_strlen(name)) == 0)
+		if (ft_strncmp(tmp_node->line_env, name, ft_strlen(name)) == 0)
 		{
 			if (!flag)
-				var->envp[env_count] = tmp;
+				tmp_node->line_env = tmp;
 			exist_already = 1;
 			free(name);
 		}
-		env_count++;
+		tmp_node = tmp_node->next;
 	}
 	if (exist_already)
-	{
-		printf("has actualizado $%s\n", tmp);
 		return (0);
-	}
-    // Allocate
-    new_env = (char **)malloc((env_count + 2) * sizeof(char *));
-    if (!new_env)
-	{
-        perror("malloc\n");
-        exit(EXIT_FAILURE);
-	}
-	while (++i < env_count)
-		new_env[i] = var->envp[i];
-    // anadir linea
-    new_env[env_count] = tmp;
-    new_env[env_count + 1] = NULL;
+    // Allocate new node line content for env.
+	ft_addback_node_env(&var->envp, new_node_env(tmp));
 	printf("has anadido $%s\n", tmp);
-	if (!exist_already)
+	if (exist_already == 0)
 		free(name);
-    // actualizar puntero original
-	doublefree(var->envp);
-    var->envp = new_env;
-    return ();
+    return (0);
 }
 
-/* 
-export [name[=value]]
-*/
+// /* 
+// export [name[=value]]
+// */
 
 int export(t_var *var)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/29 18:44:19 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/02 18:12:16 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,6 @@ static  int gnt_startpoint(t_var *var, int start)
 		word = 0;
 		// printf("ADDING TO LIST final: [%s] w index=%d\n", token_string, i);
         ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
-        var->nb_tokens++;
 	}
     // printf("Token result: [%s] -->   st: %d    end: %d\n\n", ft_substr(var->inputline, start, i - start), start, i-start);
     return (i);

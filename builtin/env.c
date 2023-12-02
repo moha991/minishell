@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 09:36:16 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/01 17:21:27 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/02 16:44:07 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,16 @@
 
 int	env(t_var *var)
 {
-	int	i;
-	int	len;
+	t_env *tmp;
 
-	i = -1;
-	len = ft_lendb(var->envp);
-	if (var->tokens->token != NULL)
+	tmp = var->envp;
+	if (var->tokens->token != NULL)//hay un token [env];
 	{
-		while (++i < len)
+		while (tmp)
 		{
-			ft_putendl_fd(var->envp[i], 1);
+			ft_putendl_fd(tmp->line_env, 1);
 			ft_putchar_fd('\n', 1);
+			tmp = tmp->next;		
 		}
 	}
 	return (0);

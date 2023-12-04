@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 17:28:26 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/02 18:14:33 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:51:53 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,11 @@ void	unset(t_var *var)
     t_tokens 	*tokens;
 	t_env		*tmp;
 	
-	tmp = var->envp;
 	tokens = var->tokens->next; // token despues del token:'unset' con el nombre de la var de entorno. (se supone, puede haber operador)
 	while (tokens && !isdouble_operator(tokens->token, 0) && !isingle_operator(tokens->token, 0))
 	{
-		while (tmp)
+		tmp = var->envp;
+		while (tmp)//var entorno.
 		{
 			if (ft_strncmp(tmp->line_env, tokens->token, ft_strlen(tokens->token)) == 0)
 			{

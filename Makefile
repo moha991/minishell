@@ -6,7 +6,7 @@
 #    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/12/02 18:12:38 by smagniny         ###   ########.fr        #
+#    Updated: 2023/12/04 17:36:10 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,10 +28,7 @@ SRC =  maintest.c \
 	builtin/export.c \
 	builtin/unset.c \
 	builtin/pwd.c \
-	builtin/bultins_utils.c \
 	builtin/run_builtins.c \
-	executor/exec_utils.c \
-	executor/executor.c \
 
 OBJS = ${SRC:.c=.o}
 ## COLORS ##

@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/02 18:12:00 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:36:47 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,10 @@ int	main(int argc, char **argv,const char **envp)
 		get_inputline(&var);
 		init_values(&var);
 		lexer(&var);
+
+		
 		run_builtin(&var);
-		//reiniciar la lista de tokens para prox commando y con ello el contador de tokens.
+		//reiniciar la lista de tokens para prox serie de commandos
 		ft_lstcleartok(&var.tokens);
 		free(var.inputline);
 	}

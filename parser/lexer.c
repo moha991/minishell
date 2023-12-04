@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/02 18:12:16 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:32:21 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,12 @@ static	char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 {
 	char	*upd_token_string;
 
-	//printf("check_word enter withs: %s && pos:[%c] && st: %d && len: %d\n", token_string, var->inputline[*start], *start, var->len_inputline);
 	if (isdoublequote(var->inputline[*i]))// si te encuentras una comilla.
 	{
 		if (isdoublequote(var->inputline[++(*i)]))
 		{
 			(*i)++;
 			(*start) += 2;
-			//printf("loop shift empty double quote at final pos %d && %d\n", (*start), *i);
 			return (token_string);
 		}
 		else
@@ -31,7 +29,6 @@ static	char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 			(*start)++;
 			upd_token_string = ft_strjoinfreee(token_string, get_str_doublequoted(var,i, start)); //recuperar la string entre comillas dobles. y pone el iterador en la posicion siguiente
 		}
-		//printf("Ultima letra por ver: %c", var->inputline[*i]);
 	}
 	else if (issinglequote(var->inputline[*i]))
 	{
@@ -39,13 +36,12 @@ static	char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 		{
 			(*i)++;
 			(*start) += 2;
-			//printf("loop shift empty single quote at final pos %d:[%c]\n", (*start), var->inputline[*i]);
 			return (token_string);
 		}
 		else
 		{
 			(*start)++;
-			upd_token_string = ft_strjoinfreee(token_string, get_str_singlequoted(var, i, start)); //recuperar la string entre comillas dobles.
+			upd_token_string = ft_strjoinfreee(token_string, get_str_singlequoted(var, i, start)); //recuperar la string entre comillas simples.
 			*start = *i;
 		}
 	}
@@ -63,11 +59,9 @@ static  int gnt_startpoint(t_var *var, int start)
     i = 0;
 	word = 0;
 	token_string = NULL;
-	//primera verificacion anti-null || \0
     if ((var->inputline == NULL || *var->inputline == '\0')
         && start < var->len_inputline)
         return (var->len_inputline);
-	//saltarse espacios e igualar iterador end (=i) si hace falta
     while (var->inputline[start] == ' ' || var->inputline[start] == '\t')
         start++;
     i = start;
@@ -79,7 +73,6 @@ static  int gnt_startpoint(t_var *var, int start)
 				break ;
             i += 2;
 			token_string = ft_substr(var->inputline, start, i - start);
-			// printf("token double operator: [%s]\n", token_string);
 			start = i;
 			break ;
         }
@@ -89,7 +82,6 @@ static  int gnt_startpoint(t_var *var, int start)
 				break;
             i++;
 			token_string = ft_substr(var->inputline, start, i - start);
-			// printf("token single operator: [%s]\n", token_string);
 			start = i;
 			break ;
         }
@@ -99,7 +91,6 @@ static  int gnt_startpoint(t_var *var, int start)
 				break ;
 			start = i++;
 			token_string = ft_substr(var->inputline, start, i - start);
-			// printf("ADDING TO LIST: equal sign [%s] w index=%d\n", token_string, i);
 			start = i;
 			break ;
         }
@@ -115,7 +106,6 @@ static  int gnt_startpoint(t_var *var, int start)
 		// printf("ADDING TO LIST final: [%s] w index=%d\n", token_string, i);
         ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
 	}
-    // printf("Token result: [%s] -->   st: %d    end: %d\n\n", ft_substr(var->inputline, start, i - start), start, i-start);
     return (i);
 }
 
@@ -126,5 +116,4 @@ void	lexer(t_var *var)
 	start = 0;
 	while (start < var->len_inputline)
 		start = gnt_startpoint(var, start); // returns the index of the next character token.-
-		//printf("start loop: %d\n", start);
 }

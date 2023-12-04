@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/02 18:11:48 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/04 17:34:56 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,48 +82,15 @@ void	cpy_env(t_env **ptr, const char **envp);
 void 	ft_freeenv(t_env **lst);
 t_env   *new_node_env(const char *line_env);
 void	ft_addback_node_env(t_env **lst, t_env *new);
+
+
 //moha
-void		execute_command_with_heredoc();
-void		create_pipe(int pipefd[2]);
-pid_t		create_child_process();
-void		handle_child_process(int pipefd[2]);
-void	handle_parent_process(int pipefd[2]);
-void	close_pipe(int pipefd[2]);
-void		run_shell();
-
-// funciones de cd
 int		cd(t_tokens *tokens);
-
-// funciones de echo
 void	starts_with_echo(t_tokens *tokens);
 t_tokens	*check_flags(t_tokens **tokens, int *flagecho);
 void 	run_builtin(t_var *var);
-int	check_flagn(t_tokens **tokens);
-
-// funciones de pwd
 int		pwd(char *path);
-
-// funciones de env
 int		env(t_var *var);
-
-// funciones de export
-int export(t_var *var);
-
+int 	export(t_var *var);
 void	unset(t_var *var);
-// funciones de quoted
-char	*remove_quotes_from_word(const char	*word);
-
-// funciones utiles 
-size_t	ft_strspn(const char *str, const char *accept);
-
-t_tokens	*get_env(t_tokens *var, char *id);
-t_tokens	*set_env(t_tokens **env, char *id, char *value);
-int	ft_strcmp(const char *s1, const char *s2);
-
-// Funciones executor
-
-
-
-// funciones utiles executor
-// funciones de quoted
 #endif

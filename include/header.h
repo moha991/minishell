@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/04 17:34:56 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:16:57 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,6 @@
 typedef struct s_token_list
 {
 	char				*token;
-	char				*id;
 	struct s_token_list	*next;
 }	t_tokens;
 
@@ -48,11 +47,10 @@ typedef struct s_node_env
 
 typedef struct s_var
 {
-	char		**cmd;		//bloque cmd
-	char		**infile;	//bloque de entrada
-	char		**outfile;	//bloque de salida
-	char		**dl_hd;	//Delmitadores el heredoc
-	char		*tmp;		//nombre dle archivo tmp
+	size_t		std_in;
+	size_t		std_out;
+	size_t		infile;
+	size_t		outfile;
 	t_env		*envp;
 	char		*inputline;
 	int			len_inputline;
@@ -82,8 +80,9 @@ void	cpy_env(t_env **ptr, const char **envp);
 void 	ft_freeenv(t_env **lst);
 t_env   *new_node_env(const char *line_env);
 void	ft_addback_node_env(t_env **lst, t_env *new);
-
-
+//redir func
+void	handleOutFileRedirection(t_var *var);
+void	handleInFileRedirection(t_var *var);
 //moha
 int		cd(t_tokens *tokens);
 void	starts_with_echo(t_tokens *tokens);

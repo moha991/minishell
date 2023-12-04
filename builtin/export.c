@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/02 17:21:09 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/04 18:45:48 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,14 +89,12 @@ int export(t_var *var)
 	{
 		if (isvalid_namevar(tokens->token))// verificar que sea alphanum o '_'
 			return (1);
-		printf("Valid name for export: [%s]\n", tokens->token);
 		var_name = ft_strjoin(tokens->token, "=");
 		tokens = tokens->next;// token '='
 		if (tokens && ft_strncmp(tokens->token, "=", 1) == 0)
 		{
 			tokens = tokens->next; // string after '='. Is the value of var_name.
 			var_value = ft_strdup(tokens->token);
-			printf("Value of %s: [%s]\n", var_name, tokens->token);
 			append_to_env(var, var_name, var_value, 0);// anade la var_name con su valor.
 			tokens = tokens->next;
 		}

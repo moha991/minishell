@@ -6,7 +6,7 @@
 #    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/12/04 17:36:10 by smagniny         ###   ########.fr        #
+#    Updated: 2023/12/04 19:59:35 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRC =  maintest.c \
 	builtin/unset.c \
 	builtin/pwd.c \
 	builtin/run_builtins.c \
+	redir/redir.c
 
 OBJS = ${SRC:.c=.o}
 ## COLORS ##
@@ -57,7 +58,7 @@ $(NAME): libft $(OBJS)
 	clear
 	@echo "$(GREEN)You Created $(NAME)$(END)"
 
-## CLEANNING ##
+## CLEANING ##
 clean:
 	@$(RM) $(OBJS)
 	@make clean -sC $(PATH_LIBFT)

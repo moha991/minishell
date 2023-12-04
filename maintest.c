@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/04 17:36:47 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/04 20:02:18 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,13 @@ int	main(int argc, char **argv,const char **envp)
 		init_values(&var);
 		lexer(&var);
 
-		
+		handleInFileRedirection(&var);
+		handleOutFileRedirection(&var);
 		run_builtin(&var);
+		// FLAG == 1
+		// FLAG == 2
+		// 	dup2(var.std_IN, 1);
+		// 	close(var.std_in);
 		//reiniciar la lista de tokens para prox serie de commandos
 		ft_lstcleartok(&var.tokens);
 		free(var.inputline);
@@ -64,3 +69,24 @@ int	main(int argc, char **argv,const char **envp)
 	ft_freeenv(&var.envp);
 	return (0);
 }
+/** struct command
+ * 	args[0]						cat
+ * items						-e NULL
+ * redir > < >> <<				> 
+ * input output 				infile
+ * redir > < >> <<				>> 
+ * input output 				outfile
+ * redir > < >> <<				> 
+ * input output 				file_final
+ * cat > infile >> outfile > file_final -e| ls
+ * < infile >> outfile > file_final -e| ls
+ */
+
+/**
+ * struct pipe
+ * type PIPE
+ * NULL
+*/
+
+
+//ls | cat -e > infile >> outfile  

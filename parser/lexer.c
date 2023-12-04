@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/04 17:32:21 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/04 19:21:05 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ static  int gnt_startpoint(t_var *var, int start)
     if (token_string != NULL && *token_string != '\0')
     {
 		word = 0;
-		// printf("ADDING TO LIST final: [%s] w index=%d\n", token_string, i);
+		printf("ADDING TO LIST final: [%s] w index=%d\n", token_string, i);
         ft_lstadd_backtok(&var->tokens, ft_lstnewtok(token_string));
 	}
     return (i);

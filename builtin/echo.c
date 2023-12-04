@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mohafnh <mohafnh@student.42.fr>            +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:07:23 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/11/13 17:28:17 by mohafnh          ###   ########.fr       */
+/*   Updated: 2023/12/04 18:39:11 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	starts_with_echo(t_tokens *tokens)
 	flagecho = 0;
 	tokens = tokens->next;
 	tokens = check_flags(&tokens, &flagecho);
-	while (tokens)
+	while (tokens && (!isdouble_operator(tokens->token, 0) && !isingle_operator(tokens->token, 0)))
 	{
 		start = tokens->token;
 		if (flagecho == 0)

@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 13:47:59 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/02 17:33:15 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:19:47 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,10 @@
 
 void	run_builtin(t_var *var)
 {
-	char	*path;
-	int		pwd_result;
-
-	if (ft_strncmp(var->tokens->token, "pwd", 3) == 0)
+	if (ft_strncmp(var->tokens->token, "pwd\0", 4) == 0 || ft_strncmp(var->tokens->token, "pwd ", 4) == 0)
 	{
-		path = var->tokens->token + 3;
-		pwd_result = pwd(path);
-		if (pwd_result != 0)
-			printf("Error al cambiar de directorio 4: %d\n", pwd_result);
+		if (pwd(var) != 0)
+			printf("Error al cambiar de directorio 4: %s\n", var->tokens->token);
 	}
 	else if (ft_strncmp(var->tokens->token, "env", 3) == 0)
 		env(var);
@@ -30,10 +25,10 @@ void	run_builtin(t_var *var)
 		cd(var->tokens);
 	else if (ft_strncmp(var->tokens->token, "export", 6) == 0)
 		export(var);
-	else if (ft_strncmp(var->tokens->token, "echo", 4) == 0)
+	else if (ft_strncmp(var->tokens->token, "echo\0", 5) == 0 || ft_strncmp(var->tokens->token, "echo ", 5) == 0)
 		starts_with_echo(var->tokens);
 	else if (ft_strncmp(var->tokens->token, "unset", 5) == 0)
 		unset(var);
 	else
-		printf("Command '%s' not found: %s\n", var->tokens->token,  __FILE__);
+		printf("Command %s not found: %s\n", var->tokens->token,  __FILE__);
 }

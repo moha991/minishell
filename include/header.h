@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/04 19:16:57 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:25:51 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,21 @@
 # define SINGLEQ '\''
 # define DOUBLEQ '\"'
 
-typedef struct s_token_list
+typedef struct s_subnode
+{
+	char *content;
+	struct s_subnode *next;
+}	t_subnode;
+
+typedef struct s_node
 {
 	char				*token;
-	struct s_token_list	*next;
-}	t_tokens;
+	t_subnode			*flags;
+	t_subnode			*params;
+	t_subnode			*redir;
+	t_subnode			*where_redir;
+	struct s_node	*next;
+}	t_node;
 
 typedef struct s_node_env
 {
@@ -49,14 +59,11 @@ typedef struct s_var
 {
 	size_t		std_in;
 	size_t		std_out;
-	size_t		infile;
-	size_t		outfile;
 	t_env		*envp;
 	char		*inputline;
 	int			len_inputline;
-	t_tokens	*tokens;
+	t_node		*tokens;
 }	t_var;
-
 
 //santi
 //lexer
@@ -70,11 +77,16 @@ char	*ft_strjoinfreee(char *s1, char *s2);
 char	*get_str_doublequoted(t_var *var, int *i, int *start);
 char	*get_str_singlequoted(t_var *var, int *i, int *start);
 char	*get_word(t_var *var, int *i, int *start);
-//list tokenizer functions
-t_tokens	*ft_lstnewtok(char *content);
-void		ft_lstadd_backtok(t_tokens **lst, t_tokens *new);
-t_tokens	*ft_lstlasttok(t_tokens *lst);
-void 		ft_lstcleartok(t_tokens **lst);
+//list node functions
+void 		ft_lstclear_node(t_node **lst);
+t_node		*ft_lstnew_node(char *content);
+t_node		*ft_lstlast_node(t_node *lst);
+void		ft_lstadd_back_node(t_node **lst, t_node *new);
+//list subnode functions
+void 		ft_lstclear_subnode(t_subnode **lst);
+t_subnode	*ft_lstnew_subnode(char *content);
+t_subnode	*ft_lstlast_subnode(t_subnode *lst);
+void		ft_lstadd_back_subnode(t_subnode **lst, t_subnode *new);
 //list environment functions
 void	cpy_env(t_env **ptr, const char **envp);
 void 	ft_freeenv(t_env **lst);
@@ -84,11 +96,11 @@ void	ft_addback_node_env(t_env **lst, t_env *new);
 void	handleOutFileRedirection(t_var *var);
 void	handleInFileRedirection(t_var *var);
 //moha
-int		cd(t_tokens *tokens);
-void	starts_with_echo(t_tokens *tokens);
-t_tokens	*check_flags(t_tokens **tokens, int *flagecho);
+int		cd(t_node *tokens);
+void	starts_with_echo(t_node *tokens);
+t_node	*check_flags(t_node **tokens, int *flagecho);
 void 	run_builtin(t_var *var);
-int		pwd(char *path);
+int		pwd(t_var	*var);
 int		env(t_var *var);
 int 	export(t_var *var);
 void	unset(t_var *var);

@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lst_funcs.c                                        :+:      :+:    :+:   */
+/*   lst_funcs_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 18:19:53 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/19 17:10:53 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:26:35 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-void ft_lstcleartok(t_tokens **lst)
+void ft_lstclear_node(t_node **lst)
 {
-    t_tokens *current;
+    t_node *current;
 
     if (!lst || !*lst)
         return;
@@ -28,19 +28,23 @@ void ft_lstcleartok(t_tokens **lst)
     }
 }
 
-t_tokens	*ft_lstnewtok(char *content)
+t_node	*ft_lstnew_node(char *content)
 {
-	t_tokens    *ptr;
+	t_node    *ptr;
 
-	ptr = (t_tokens *)malloc(sizeof(t_tokens));
+	ptr = (t_node *)malloc(sizeof(t_node));
 	if (!(ptr))
 		return (NULL);
 	ptr->token = content;
+	ptr->flags = NULL;
+	ptr->params = NULL;
+	ptr->redir = NULL;
+	ptr->where_redir = NULL;
 	ptr->next = NULL;
 	return (ptr);
 }
 
-t_tokens	*ft_lstlasttok(t_tokens *lst)
+t_node	*ft_lstlast_node(t_node *lst)
 {
 	if (!lst)
 		return (NULL);
@@ -49,11 +53,11 @@ t_tokens	*ft_lstlasttok(t_tokens *lst)
 	return (lst);
 }
 
-void	ft_lstadd_backtok(t_tokens **lst, t_tokens *new)
+void	ft_lstadd_back_node(t_node **lst, t_node *new)
 {	
-	t_tokens	*ptr;
+	t_node	*ptr;
 
-	ptr = ft_lstlasttok(*lst);
+	ptr = ft_lstlast_node(*lst);
 	if (ptr != NULL)
 		ptr->next = new;
 	else

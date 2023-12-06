@@ -3,19 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 03:41:02 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/11/23 14:57:35 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:00:02 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-int	pwd(char *path)
+int	pwd(t_var	*var)
 {
-	path = getcwd(NULL, 0);
+	char	*path;
 
+	//verificar var->tokens para mirar que no haya flags ni params.
+	(void)var;
+	path = getcwd(NULL, 0);
 	if (path == NULL)
 	{
 		perror("Error al obtener el directorio actual");

@@ -6,7 +6,7 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/04 18:45:48 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:09:12 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int export(t_var *var)
 {
     char       	*var_name;
 	char		*var_value;
-    t_tokens 	*tokens;
+    t_node 	*tokens;
     
 	var_name = NULL;
 	var_value = NULL;

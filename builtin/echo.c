@@ -6,13 +6,13 @@
 /*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:07:23 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/04 18:39:11 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/06 18:09:09 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-void	starts_with_echo(t_tokens *tokens)
+void	starts_with_echo(t_node *tokens)
 {
 	int		flagecho;
 	char	*start;
@@ -39,11 +39,13 @@ void	starts_with_echo(t_tokens *tokens)
 		printf("\n");
 }
 
-t_tokens	*check_flags(t_tokens **tokens, int *flagecho)
+t_node	*check_flags(t_node **tokens, int *flagecho)
 {
 	int 	count;
 	
 	count = 0;
+	if (!tokens || !(*tokens))
+		return (NULL);
 	if ((*tokens)->token[count] == '-')
 	{
 		count++;

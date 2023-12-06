@@ -6,7 +6,7 @@
 #    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/12/04 19:59:35 by smagniny         ###   ########.fr        #
+#    Updated: 2023/12/06 18:20:06 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,8 @@ SRC =  maintest.c \
 	parser/lexer.c \
 	parser/utils_lexer.c \
 	parser/parsequoting.c \
-	parser/lst_funcs.c \
+	parser/lst_funcs_node.c \
+	parser/lst_funcs_subnode.c \
 	builtin/cd.c \
 	builtin/echo.c \
 	builtin/env.c \

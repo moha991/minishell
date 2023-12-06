@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsequoting.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/23 15:51:10 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/06 17:47:08 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*get_word(t_var *var, int *i, int *start)
 	if (*i >= var->len_inputline)
 		return (NULL);
 	while (ft_isascii(var->inputline[*i]) && (!isdoublequote(var->inputline[*i]) && !issinglequote(var->inputline[*i]) && !is_space_or_eof(var->inputline[*i]) 
-		&& !isingle_operator(var->inputline, *i) && !isdouble_operator(var->inputline, *i) && var->inputline[*i] != '='))
+		&& !isingle_operator(var->inputline, *i) && !isdouble_operator(var->inputline, *i)))
 		(*i)++;
 	if (*start < *i)
 		str = ft_substr(var->inputline, *start, *i - *start);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 03:41:02 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/06 18:00:02 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:00:55 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,11 @@ int	pwd(t_var	*var)
 {
 	char	*path;
 
-	//verificar var->tokens para mirar que no haya flags ni params.
-	(void)var;
+	if (var->tokens->flags != NULL)
+	{	
+		printf("Minishell: pwd: no options can be handled.\n");
+		return (1);
+	}
 	path = getcwd(NULL, 0);
 	if (path == NULL)
 	{

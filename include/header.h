@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/06 18:25:51 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:48:04 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@
 
 typedef struct s_subnode
 {
-	char *content;
-	struct s_subnode *next;
+	char				*content;
+	struct s_subnode	*next;
 }	t_subnode;
 
 typedef struct s_node
@@ -46,7 +46,7 @@ typedef struct s_node
 	t_subnode			*params;
 	t_subnode			*redir;
 	t_subnode			*where_redir;
-	struct s_node	*next;
+	struct s_node		*next;
 }	t_node;
 
 typedef struct s_node_env
@@ -59,6 +59,8 @@ typedef struct s_var
 {
 	size_t		std_in;
 	size_t		std_out;
+	size_t		fd_in;
+	size_t		fd_out;
 	t_env		*envp;
 	char		*inputline;
 	int			len_inputline;
@@ -95,10 +97,10 @@ void	ft_addback_node_env(t_env **lst, t_env *new);
 //redir func
 void	handleOutFileRedirection(t_var *var);
 void	handleInFileRedirection(t_var *var);
+void    base_redir(t_var *var);
 //moha
 int		cd(t_node *tokens);
-void	starts_with_echo(t_node *tokens);
-t_node	*check_flags(t_node **tokens, int *flagecho);
+void	echo(t_node *tokens);
 void 	run_builtin(t_var *var);
 int		pwd(t_var	*var);
 int		env(t_var *var);

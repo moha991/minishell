@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/06 18:51:55 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/08 19:58:14 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,22 @@ static	char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 
 static	int detect_flag(t_var *var, char *token_string)
 {
-	t_subnode *tmp;
+	int			i;
 
-	tmp = NULL;
+	i = 1;
 	if (ft_strncmp(token_string, "-", 1) == 0)
 	{
-		ft_lstadd_back_subnode(&var->tokens->flags, ft_lstnew_subnode(token_string));
-		printf("Se ha actualizado el nodo con la flag.\nNODE:\n\ttoken: %s\n", var->tokens->token);
-		printf("\tflags: ");
-		tmp = var->tokens->flags;
-		while (tmp)
+		if (ft_strncmp(var->tokens->token, "echo", 4) == 0 && var->tokens->redir == NULL && var->tokens->where_redir == NULL)
 		{
-			printf("%s ", tmp->content);
-			tmp = tmp->next;
+			while (token_string[i] == 'n')
+				i++;
+			if (token_string[i] == '\0' && var->tokens->params == NULL)
+				ft_lstadd_back_subnode(&var->tokens->flags, ft_lstnew_subnode(token_string));
+			else
+				ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode(token_string));
 		}
-		printf("\n");
+		else
+			ft_lstadd_back_subnode(&var->tokens->flags, ft_lstnew_subnode(token_string));
 		return (0);
 	}
 	return (1);
@@ -93,23 +94,38 @@ static  int gnt_startpoint(t_var *var, int start)
         {
 			if (word)
 				break ;
+			if (var->tokens == NULL)
+				ft_lstadd_back_node(&var->tokens, ft_lstnew_node(NULL));
             i += 2;
 			token_string = ft_substr(var->inputline, start, i - start);
 			start = i;
 			ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(token_string));
+			while (var->inputline[start] == ' ' || var->inputline[start] == '\t')
+        		start++;
+    		i = start;
+			token_string = 0;
+			token_string = check_word_rec(var, &start, &i, NULL);
+			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(token_string));
+			// checkear disponibilidad archivo en caso de input
 			token_string = NULL;
-			break ;
         }
-        else if (isingle_operator(var->inputline, i))// tokenize > < and |
+        else if (isingle_operator(var->inputline, i))// tokenize > < 
         {
 			if (word)
 				break;
+			if (var->tokens == NULL)
+				ft_lstadd_back_node(&var->tokens, ft_lstnew_node(NULL));
             i++;
 			token_string = ft_substr(var->inputline, start, i - start);
 			start = i;
 			ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(token_string));
+			while (var->inputline[start] == ' ' || var->inputline[start] == '\t')
+        		start++;
+    		i = start;
 			token_string = NULL;
-			break ;
+			token_string = check_word_rec(var, &start, &i, NULL);
+			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(token_string));
+			token_string = NULL;
         }
 		else
         {
@@ -122,10 +138,11 @@ static  int gnt_startpoint(t_var *var, int start)
 		word = 0;
 		if (detect_flag(var, token_string))
 		{
-			if (var->tokens == NULL)
+			if (var->tokens->token == NULL)
 			{
 				// printf("ADDING NODE w token: [%s] w index=%d\n", token_string, i);
-        		ft_lstadd_back_node(&var->tokens, ft_lstnew_node(token_string));
+				var->tokens->token = token_string;
+        		// ft_lstadd_back_node(&var->tokens, ft_lstnew_node(token_string));
 			}
 			else
 			{

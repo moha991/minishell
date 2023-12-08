@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:17:19 by smagniny          #+#    #+#             */
-/*   Updated: 2023/11/19 22:49:44 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/08 18:40:33 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	issinglequote(int c)
 
 int	isingle_operator(char *line, int i)
 {
-	return (line[i] == '|' || (line[i] == '>' && line[(i + 1)] != '>')
+	return ((line[i] == '>' && line[(i + 1)] != '>')
 		|| (line[i] == '<' && line[(i + 1)] != '<'));
 }
 

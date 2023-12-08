@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/02 17:28:26 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/06 18:09:13 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:37:10 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,21 @@ static	void deleteNode(t_env **stack, t_env *nodeToDelete)
 
 void	unset(t_var *var)
 {
-    t_node 	*tokens;
+    t_subnode 	*tokens;
 	t_env		*tmp;
 	
-	tokens = var->tokens->next; // token despues del token:'unset' con el nombre de la var de entorno. (se supone, puede haber operador)
-	while (tokens && !isdouble_operator(tokens->token, 0) && !isingle_operator(tokens->token, 0))
+	if (var->tokens->flags != NULL)
+	{	
+		printf("Minishell: unset: no options can be handled.\n");
+		return ;
+	}
+	tokens = var->tokens->params; // params del nodo unset,con nombres de var de entorno a eliminar
+	while (tokens)
 	{
 		tmp = var->envp;
 		while (tmp)//var entorno.
 		{
-			if (ft_strncmp(tmp->line_env, tokens->token, ft_strlen(tokens->token)) == 0)
+			if (ft_strncmp(tmp->line_env, tokens->content, ft_strlen(tokens->content)) == 0)
 			{
 				deleteNode(&var->envp, tmp);
 				break ;

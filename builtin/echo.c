@@ -3,80 +3,55 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:07:23 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/06 18:09:09 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/08 14:33:52 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../include/header.h"
 
-void	starts_with_echo(t_node *tokens)
+static	int	check_flags(t_node *tokens)
 {
-	int		flagecho;
-	char	*start;
-
-	flagecho = 0;
-	tokens = tokens->next;
-	tokens = check_flags(&tokens, &flagecho);
-	while (tokens && (!isdouble_operator(tokens->token, 0) && !isingle_operator(tokens->token, 0)))
+	int			count;
+	t_subnode	*subnode;
+	
+	count = 0;
+	subnode = tokens->flags;
+	if (!tokens || !subnode)
+		return (0);
+	if (subnode->content[count] == '-')
 	{
-		start = tokens->token;
-		if (flagecho == 0)
-		{
-			printf("%s", start);
+		count++;
+		while (subnode->content[count] == 'n')
+			count++;				
+		if (subnode->content[count] == '\0')
+			return (1);
+		else
+			return (0);
+	}
+	return (0);
+}
+void	echo(t_node *tokens)
+{
+	int			flagecho;
+	t_subnode	*str;
+	int			i;
+
+	i = 0;
+	flagecho = 0;
+	str = tokens->params;
+	flagecho = check_flags(tokens);
+	while (str)
+	{
+		if (i > 0)
 			printf(" ");
-		}
-		if (flagecho == 1)
-		{
-			printf("%s", start);
-			printf(" ");
-		}
-		tokens = tokens->next;
+		printf("%s", str->content);
+		str = str->next;
+		i++;
 	}
 	if (flagecho == 0)
 		printf("\n");
 }
 
-t_node	*check_flags(t_node **tokens, int *flagecho)
-{
-	int 	count;
-	
-	count = 0;
-	if (!tokens || !(*tokens))
-		return (NULL);
-	if ((*tokens)->token[count] == '-')
-	{
-		count++;
-		while ((*tokens)->token[count] == 'n')
-			count++;				
-		if ((*tokens)->token[count] != '\0')
-			*flagecho = 0;
-		else
-		{	
-			*flagecho = 1;
-			(*tokens) = (*tokens)->next;
-		}
-	}
-	if (*flagecho == 1)
-	{
-		while ((*tokens))
-		{
-			count = 0;
-			if ((*tokens)->token[count] == '-')
-			{
-				count++;
-				while ((*tokens)->token[count] == 'n')
-					count++;
-				if ((*tokens)->token[count] != '\0')
-					break;
-				else
-					(*tokens) = (*tokens)->next;
-			}
-			else
-				break ;
-		}
-	} 
-	return (*tokens);
-}

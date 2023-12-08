@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsequoting.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
+/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 14:54:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/06 17:47:08 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/08 19:22:32 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ char	*ft_strjoinfreee(char *s1, char *s2)
 	while (s2 && s2[j] != '\0')
 		new_str[i++] = s2[j++];
 	new_str[i] = '\0';
-	if (s1)
+	if (s1 != NULL)
 		free(s1);
-	if (s2)
+	if (s2 != NULL)
 		free(s2);
 	return (new_str);
 }

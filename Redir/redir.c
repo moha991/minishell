@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/08 20:01:05 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:56:11 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,17 @@
 void    base_redir(t_var *var)
 {
 	if (var->fd_in)
+	{
 		close(var->fd_in);
+		dup2(var->std_in, 0);
+		close(var->std_in);
+	}
 	if (var->fd_out)
+	{
 		close(var->fd_out);
-	dup2(var->std_in, 0);
-	close(var->std_in);
-	dup2(var->std_out, 1);
-	close(var->std_out);
+		dup2(var->std_out, 1);
+		close(var->std_out);	
+	}
 }
 
 void    handleOutFileRedirection(t_var *var)
@@ -30,34 +34,34 @@ void    handleOutFileRedirection(t_var *var)
 	t_subnode	*sub_redir_tmp;
 	t_subnode	*sub_wheredir_tmp;
 	tmp = var->tokens;
-	if (tmp->redir == NULL || tmp->where_redir == NULL)
+	if (!tmp || tmp->redir == NULL || tmp->where_redir == NULL)
 		return ;
-	// todo esto me parece raro
 	sub_redir_tmp = var->tokens->redir;
-	while (sub_redir_tmp->next)
-		sub_redir_tmp = sub_redir_tmp->next;
 	sub_wheredir_tmp = var->tokens->where_redir;
-	while (sub_wheredir_tmp->next)
+	var->std_out = dup(STDOUT_FILENO);
+	while (sub_redir_tmp && sub_wheredir_tmp)
+	{
+		if (sub_redir_tmp->content == NULL || sub_wheredir_tmp->content == NULL)
+			return ;
+		//printf("redir executed: %s\nWhere_file founded: %s\n", sub_redir_tmp->content, sub_wheredir_tmp->content);
+		if (ft_strncmp(sub_redir_tmp->content, ">>", 2) == 0)
+		{
+			var->fd_out = open(sub_wheredir_tmp->content, O_WRONLY | O_CREAT | O_APPEND);
+			if (!var->fd_out)
+				printf("Minishell: No such file or directory: %s", sub_wheredir_tmp->content);
+			dup2(var->fd_out, STDOUT_FILENO);
+			close(var->fd_out);
+		}
+		else if (ft_strncmp(sub_redir_tmp->content, ">", 1) == 0 )
+		{
+			var->fd_out = open(sub_wheredir_tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			if (!var->fd_out)
+				printf("Minishell: No such file or directory: %s", sub_wheredir_tmp->content);
+			dup2(var->fd_out, STDOUT_FILENO);
+			close(var->fd_out);
+		}
+		sub_redir_tmp = sub_redir_tmp->next;
 		sub_wheredir_tmp = sub_wheredir_tmp->next;
-	// hasta aqui
-	//printf("redir executed: %s\nWhere_file founded: %s\n", sub_redir_tmp->content, sub_wheredir_tmp->content);
-	if (ft_strncmp(sub_redir_tmp->content, ">>", 2) == 0)
-	{
-		var->std_out = dup(STDOUT_FILENO);
-		var->fd_out = open(sub_wheredir_tmp->content, O_WRONLY | O_CREAT | O_APPEND);
-		if (!var->fd_out)
-			printf("Minishell: No such file or directory: %s", sub_wheredir_tmp->content);
-		dup2(var->fd_out, STDOUT_FILENO);
-		close(var->fd_out);
-	}
-	else if (tmp && ft_strncmp(sub_redir_tmp->content, ">", 1) == 0 )
-	{
-		var->std_out = dup(STDOUT_FILENO);
-		var->fd_out = open(sub_wheredir_tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (!var->fd_out)
-			printf("Minishell: No such file or directory: %s", sub_wheredir_tmp->content);
-		dup2(var->fd_out, STDOUT_FILENO);
-		close(var->fd_out);
 	}
 }
 

@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/09 17:28:54 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/11 19:01:11 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 
 # include <stdlib.h>
 # include <fcntl.h>
-# include <readline/readline.h>
-# include <readline/history.h>
 # include <stdio.h>
 # include <errno.h>
 # include "libft/libft.h"
 # include <string.h>
 # include <unistd.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 //moha includes
 # include <stddef.h> // Incluye la librería para definir NULL
@@ -90,6 +90,7 @@ t_subnode	*ft_lstnew_subnode(char *content);
 t_subnode	*ft_lstlast_subnode(t_subnode *lst);
 void		ft_lstadd_back_subnode(t_subnode **lst, t_subnode *new);
 //list environment functions
+void    ft_expansor(t_var *var);
 void	cpy_env(t_env **ptr, const char **envp);
 void 	ft_freeenv(t_env **lst);
 t_env   *new_node_env(const char *line_env);

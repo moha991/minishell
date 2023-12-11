@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/09 17:46:54 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/11 18:38:52 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static	char	**malloc_flagsandparams_node(t_node *node)
 		size++;
 		tmp = tmp->next;
 	}
-	args = (char **)malloc((size + 1) * sizeof(char *));
+	args = (char **)malloc((size + 2) * sizeof(char *));
 	if (!args)
 		return (NULL);
 	return (args);
@@ -46,6 +46,7 @@ static	char	**set_flagsandparams_to_array(t_node *node)
 	args = malloc_flagsandparams_node(node);
 	tmp = node->flags;
 	i = 0;
+	args[i++] = ft_strdup(node->token);
 	while (tmp)
 	{
 		args[i++] = ft_strdup(tmp->content);

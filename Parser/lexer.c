@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/08 19:58:14 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/11 16:21:06 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static  int gnt_startpoint(t_var *var, int start)
     i = 0;
 	word = 0;
 	token_string = NULL;
-    if ((var->inputline == NULL || *var->inputline == '\0')
+    if ((var->inputline == NULL)
         && start < var->len_inputline)
         return (var->len_inputline);
     while (var->inputline[start] == ' ' || var->inputline[start] == '\t')

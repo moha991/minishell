@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/09 17:55:05 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/11 18:14:06 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,11 @@ static  void	get_inputline(t_var *var)
 
 	printf("\e[0;31m");
 	str = readline("(===||[\033[90m:::::::::::::::> \e[0;36m");
+	if (!str || str == NULL)
+	{
+		var->inputline = NULL;
+		return ;
+	}
 	if (ft_strncmp(str, "clear\0", 6) == 0)
 	{
 		free(str);
@@ -101,12 +106,14 @@ int	main(int argc, char **argv,const char **envp)
 	(void)argc;
 	(void)argv;
 	var.envp = NULL;
+	var.inputline = NULL;
 	cpy_env(&var.envp, envp);
 	while (42)
 	{
 		get_inputline(&var);
 		init_values(&var);
 		lexer(&var);
+		ft_expansor(&var);
 		printNode(var.tokens);
 		//pipes recursivo.
 		// handleInFileRedirection(&var);
@@ -119,7 +126,9 @@ int	main(int argc, char **argv,const char **envp)
 		//reiniciar el nodo para prox serie de commandos
 		ft_lstclear_node(&var.tokens);
 		free(var.tokens);
-		free(var.inputline);
+		if (var.inputline != NULL)
+			free(var.inputline);
+			
 	}
 	ft_freeenv(&var.envp);
 	return (0);

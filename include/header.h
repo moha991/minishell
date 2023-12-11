@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/08 18:48:04 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/09 17:28:54 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,12 +96,15 @@ t_env   *new_node_env(const char *line_env);
 void	ft_addback_node_env(t_env **lst, t_env *new);
 //redir func
 void	handleOutFileRedirection(t_var *var);
-void	handleInFileRedirection(t_var *var);
+//void	handleInFileRedirection(t_var *var);
 void    base_redir(t_var *var);
+//External command execution
+void	ft_exec(t_var *var);
+
 //moha
 int		cd(t_node *tokens);
 void	echo(t_node *tokens);
-void 	run_builtin(t_var *var);
+int 	run_builtin(t_var *var);
 int		pwd(t_var	*var);
 int		env(t_var *var);
 int 	export(t_var *var);

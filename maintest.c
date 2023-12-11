@@ -6,7 +6,7 @@
 /*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/08 19:59:57 by smagniny         ###   ########.fr       */
+/*   Updated: 2023/12/09 17:55:05 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,14 @@ int	main(int argc, char **argv,const char **envp)
 		init_values(&var);
 		lexer(&var);
 		printNode(var.tokens);
+		//pipes recursivo.
 		// handleInFileRedirection(&var);
 		handleOutFileRedirection(&var);
-		run_builtin(&var);
+		//expansor
+		if (run_builtin(&var))
+			ft_exec(&var);
 		base_redir(&var);
+		//pipe recursivo hasta aqui.
 		//reiniciar el nodo para prox serie de commandos
 		ft_lstclear_node(&var.tokens);
 		free(var.tokens);

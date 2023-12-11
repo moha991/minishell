@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+         #
+#    By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/13 10:25:10 by mohafnh           #+#    #+#              #
-#    Updated: 2023/12/06 18:20:06 by smagniny         ###   ########.fr        #
+#    Updated: 2023/12/09 17:57:34 by smagniny         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,20 +17,22 @@ EXT_LIBS = -lreadline
 PATH_LIBFT = ./include/libft
 
 SRC =  maintest.c \
-	env/ft_env.c \
-	parser/lexer.c \
-	parser/utils_lexer.c \
-	parser/parsequoting.c \
-	parser/lst_funcs_node.c \
-	parser/lst_funcs_subnode.c \
-	builtin/cd.c \
-	builtin/echo.c \
-	builtin/env.c \
-	builtin/export.c \
-	builtin/unset.c \
-	builtin/pwd.c \
-	builtin/run_builtins.c \
-	redir/redir.c
+	Env/Env.c \
+	Env/Expansor.c \
+	Parser/lexer.c \
+	Parser/utils_lexer.c \
+	Parser/parsequoting.c \
+	Parser/lst_funcs_node.c \
+	Parser/lst_funcs_subnode.c \
+	Builtin/cd.c \
+	Builtin/echo.c \
+	Builtin/env.c \
+	Builtin/export.c \
+	Builtin/unset.c \
+	Builtin/pwd.c \
+	Builtin/run_builtins.c \
+	Redir/redir.c \
+	External/ft_exec.c
 
 OBJS = ${SRC:.c=.o}
 ## COLORS ##

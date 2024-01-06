@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 15:57:42 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/11 16:21:06 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:50:11 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ static	char	*check_word_rec(t_var *var, int *start, int *i, char *token_string)
 		{
 			(*start)++;
 			upd_token_string = ft_strjoinfreee(token_string, get_str_singlequoted(var, i, start)); //recuperar la string entre comillas simples.
+			var->quoted_string = 1;
+			//printf("is in single quote: TRUE\nstr: %s\n", upd_token_string);
 			*start = *i;
 		}
 	}
@@ -57,17 +59,18 @@ static	int detect_flag(t_var *var, char *token_string)
 	i = 1;
 	if (ft_strncmp(token_string, "-", 1) == 0)
 	{
-		if (ft_strncmp(var->tokens->token, "echo", 4) == 0 && var->tokens->redir == NULL && var->tokens->where_redir == NULL)
+		if (ft_strncmp(var->tokens->token->content, "echo", 4) == 0 && var->tokens->redir == NULL && var->tokens->where_redir == NULL)
 		{
 			while (token_string[i] == 'n')
 				i++;
 			if (token_string[i] == '\0' && var->tokens->params == NULL)
-				ft_lstadd_back_subnode(&var->tokens->flags, ft_lstnew_subnode(token_string));
+				ft_lstadd_back_subnode(&var->tokens->flags, ft_lstnew_subnode(token_string, var->quoted_string));
 			else
-				ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode(token_string));
+				ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode(token_string, var->quoted_string));
 		}
 		else
-			ft_lstadd_back_subnode(&var->tokens->flags, ft_lstnew_subnode(token_string));
+			ft_lstadd_back_subnode(&var->tokens->flags, ft_lstnew_subnode(token_string, var->quoted_string));
+		var->quoted_string = 0;
 		return (0);
 	}
 	return (1);
@@ -95,17 +98,18 @@ static  int gnt_startpoint(t_var *var, int start)
 			if (word)
 				break ;
 			if (var->tokens == NULL)
-				ft_lstadd_back_node(&var->tokens, ft_lstnew_node(NULL));
+				ft_lstadd_back_node(&var->tokens, ft_lstnew_node());
             i += 2;
 			token_string = ft_substr(var->inputline, start, i - start);
 			start = i;
-			ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(token_string));
+			ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(token_string, 0));
 			while (var->inputline[start] == ' ' || var->inputline[start] == '\t')
         		start++;
     		i = start;
 			token_string = 0;
 			token_string = check_word_rec(var, &start, &i, NULL);
-			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(token_string));
+			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(token_string, var->quoted_string));
+			var->quoted_string = 0;
 			// checkear disponibilidad archivo en caso de input
 			token_string = NULL;
         }
@@ -114,18 +118,19 @@ static  int gnt_startpoint(t_var *var, int start)
 			if (word)
 				break;
 			if (var->tokens == NULL)
-				ft_lstadd_back_node(&var->tokens, ft_lstnew_node(NULL));
+				ft_lstadd_back_node(&var->tokens, ft_lstnew_node());
             i++;
 			token_string = ft_substr(var->inputline, start, i - start);
 			start = i;
-			ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(token_string));
+			ft_lstadd_back_subnode(&var->tokens->redir, ft_lstnew_subnode(token_string, 0));
 			while (var->inputline[start] == ' ' || var->inputline[start] == '\t')
         		start++;
     		i = start;
 			token_string = NULL;
 			token_string = check_word_rec(var, &start, &i, NULL);
-			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(token_string));
+			ft_lstadd_back_subnode(&var->tokens->where_redir, ft_lstnew_subnode(token_string, var->quoted_string));
 			token_string = NULL;
+			var->quoted_string = 0;
         }
 		else
         {
@@ -140,15 +145,15 @@ static  int gnt_startpoint(t_var *var, int start)
 		{
 			if (var->tokens->token == NULL)
 			{
-				// printf("ADDING NODE w token: [%s] w index=%d\n", token_string, i);
-				var->tokens->token = token_string;
-        		// ft_lstadd_back_node(&var->tokens, ft_lstnew_node(token_string));
+        		ft_lstadd_back_subnode(&var->tokens->token, ft_lstnew_subnode(token_string, var->quoted_string));
+				//printf("succesfully added to NODE->TOKEN: %s\nQUOTED: %d\n", ft_lstlast_subnode(var->tokens->token)->content, ft_lstlast_subnode(var->tokens->token)->quoted_string);
+				var->quoted_string = 0;
 			}
 			else
 			{
-				// printf("Se ha actualizado el nodo con nuevos params.\nNODE:\n\ttoken: %s\n", var->tokens->token);
-				// printf("\tParams: [%s] w index=%d\n", token_string, i);
-        		ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode(token_string));
+        		ft_lstadd_back_subnode(&var->tokens->params, ft_lstnew_subnode(token_string, var->quoted_string));
+				//printf("succesfully added to NODE->PARAMS:  %s\nQUOTED: %d\n", ft_lstlast_subnode(var->tokens->params)->content, ft_lstlast_subnode(var->tokens->params)->quoted_string);
+				var->quoted_string = 0;
 			}
 		}
 	}

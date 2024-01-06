@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/04 18:03:39 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/11 16:56:11 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:20:34 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void    base_redir(t_var *var)
 	{
 		close(var->fd_out);
 		dup2(var->std_out, 1);
-		close(var->std_out);	
+		close(var->std_out);
 	}
 }
 
@@ -46,7 +46,7 @@ void    handleOutFileRedirection(t_var *var)
 		//printf("redir executed: %s\nWhere_file founded: %s\n", sub_redir_tmp->content, sub_wheredir_tmp->content);
 		if (ft_strncmp(sub_redir_tmp->content, ">>", 2) == 0)
 		{
-			var->fd_out = open(sub_wheredir_tmp->content, O_WRONLY | O_CREAT | O_APPEND);
+			var->fd_out = open(sub_wheredir_tmp->content, O_WRONLY | O_CREAT | O_APPEND, 644);
 			if (!var->fd_out)
 				printf("Minishell: No such file or directory: %s", sub_wheredir_tmp->content);
 			dup2(var->fd_out, STDOUT_FILENO);
@@ -54,7 +54,7 @@ void    handleOutFileRedirection(t_var *var)
 		}
 		else if (ft_strncmp(sub_redir_tmp->content, ">", 1) == 0 )
 		{
-			var->fd_out = open(sub_wheredir_tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+			var->fd_out = open(sub_wheredir_tmp->content, O_WRONLY | O_CREAT | O_TRUNC, 644);
 			if (!var->fd_out)
 				printf("Minishell: No such file or directory: %s", sub_wheredir_tmp->content);
 			dup2(var->fd_out, STDOUT_FILENO);

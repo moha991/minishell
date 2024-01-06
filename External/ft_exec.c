@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exec.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 16:01:41 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/11 18:38:52 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:23:05 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static	char	**set_flagsandparams_to_array(t_node *node)
 	args = malloc_flagsandparams_node(node);
 	tmp = node->flags;
 	i = 0;
-	args[i++] = ft_strdup(node->token);
+	args[i++] = ft_strdup(node->token->content);
 	while (tmp)
 	{
 		args[i++] = ft_strdup(tmp->content);
@@ -62,7 +62,7 @@ static	char	**set_flagsandparams_to_array(t_node *node)
 	return (args);
 }
 
-static	char	**envlist_to_array(t_env *envlist)
+char	**envlist_to_array(t_env *envlist)
 {
 	char	**envp;
     t_env 	*tmp;
@@ -147,13 +147,13 @@ void	ft_exec(t_var *var)
 	// i = -1;
 	// while (envp[++i])
 	// 	printf("envp[%d]: %s\n", i, envp[i]);
-	exec_path = find_path(envp, var->tokens->token);
+	exec_path = find_path(envp, var->tokens->token->content);
 	// printf("exec_path found: %s\n", exec_path);
 	if (exec_path == NULL)
 	{
 		doublefree(envp);
 		doublefree(args);
-		printf("Minishell: Invalid command\n");
+		printf("Minishell: Command not found: %s\n", var->tokens->token->content);
 		return ;
 	}
 	pid = fork();
@@ -170,7 +170,9 @@ void	ft_exec(t_var *var)
 		// close(fd[0]);
 		// dup2(fd[1], STDOUT_FILENO);
 		// close(fd[1]);
-		if (execve(exec_path, args, envp) == -1)
+		var->exit_status = execve(exec_path, args, envp);
+		printf("status code: %d\n", var->exit_status);
+		if (var->exit_status == -1)
 		{
 			free(exec_path);
 			doublefree(envp);

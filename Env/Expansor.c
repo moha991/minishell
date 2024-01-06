@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   Expansor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/09 15:52:04 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/11 18:44:34 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 18:42:51 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ static  char    *expand(t_env *env, char *dollar_str)
         if (ft_strncmp(tmp->line_env, dollar_str + 1, ft_strlen(dollar_str) - 1) == 0)
         {
             str = ft_strdup(tmp->line_env + ft_strlen(dollar_str));
-            free(dollar_str);
             return (str);
         }
         tmp = tmp->next;
@@ -32,16 +31,62 @@ static  char    *expand(t_env *env, char *dollar_str)
     return (NULL);
 }
 
+// static void expansor_sublist(t_subnode   *sublist_ptr, t_var *var)
+// {   
+//     t_subnode   *tmp;
+//     char        *res;
+
+//     res = NULL;
+//     tmp = sublist_ptr;
+//     while (tmp)
+//     {
+//         res = ft_strrchr(tmp->content, '$');
+//         if (tmp->quoted_string == 0 && tmp->content && res && ft_strlen(res) > 1)
+//         {
+//             if (res[1] == '?' && res[2] == '\0')
+//                 tmp->content = ft_itoa(var->exit_status);
+//             else
+//                 tmp->content = expand(var->envp, ft_strrchr(tmp->content, '$'));
+//         }
+//         tmp = tmp->next;
+//     }
+// }
+
+static  int count_letter_bf_expansion(char *string)
+{
+    int  i;
+    
+    if (string == NULL)
+        return (0);
+    i = 0;
+    while (string[i] != '$' && string[i])
+        i++;
+    return (i);
+}
+
 static void expansor_sublist(t_subnode   *sublist_ptr, t_var *var)
 {   
     t_subnode   *tmp;
+    char        *str;
+    // char        *expanded;
+    char        *res;
+    int         k;
 
     tmp = sublist_ptr;
+    str = NULL;
     while (tmp)
     {
-        if (tmp->content && ft_strrchr(tmp->content, '$'))
+        k = count_letter_bf_expansion(tmp->content);
+        if (k)
+            str = ft_substr(tmp->content, 0, k);
+        res = ft_strrchr(tmp->content, '$');
+        if (tmp->quoted_string == 0 && tmp->content && res && ft_strlen(res) > 1)
         {
-            tmp->content = expand(var->envp, ft_strrchr(tmp->content, '$'));
+            if (res[1] == '?' && res[2] == '\0')
+                res = ft_itoa(var->exit_status);
+            else
+                res = expand(var->envp, ft_strrchr(tmp->content, '$'));
+            tmp->content = ft_strjoinfreee(str, res);
         }
         tmp = tmp->next;
     }
@@ -49,10 +94,9 @@ static void expansor_sublist(t_subnode   *sublist_ptr, t_var *var)
 
 void    ft_expansor(t_var *var)
 {
-    if (var->tokens == NULL)
+    if (var->tokens == NULL || var->tokens->token == NULL)
         return ;
-    if (ft_strrchr(var->tokens->token, '$'))
-        var->tokens->token = expand(var->envp, ft_strrchr(var->tokens->token, '$'));
+    expansor_sublist(var->tokens->token, var);
     expansor_sublist(var->tokens->flags, var);
     expansor_sublist(var->tokens->params, var);
     expansor_sublist(var->tokens->redir, var);

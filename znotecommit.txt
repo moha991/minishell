@@ -19,6 +19,15 @@ Compila corrrectamente.
 -arreglar el echo sin args
 -fuertes dudas con la expansion de $?
 
+5/01/24
+- export muestra varaibles en orden alphabetico
+- las palabras en encomillado simple no se expanden.
+- expansión de $? para codigos de error quedan bugs
+- correción de bugs.
+	- readline vacío vuelve a mostrar el prompt.
+	- stderr: COMMAND NOT FOUND. 
+	- expansión de una variable inexistente devuelve un salto de linea.
+
 # **************************************************************************** #
 #                                COMPARE PARSING                               #
 # **************************************************************************** #
@@ -49,7 +58,7 @@ echo '"'  "$USER"   '"'
 /bin/echo $"HOM"E$USER
 
 /bin/echo "exit_code ->$? user ->$USER home -> $HOME"
-
+ 
 /bin/echo $"HOME"
 
 /bin/echo $"42$"

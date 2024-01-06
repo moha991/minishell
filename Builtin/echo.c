@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/19 14:07:23 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/08 14:33:52 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 18:00:25 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ void	echo(t_node *tokens)
 	{
 		if (i > 0)
 			printf(" ");
-		printf("%s", str->content);
+		if (str->content)
+			printf("%s", str->content);
 		str = str->next;
 		i++;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_funcs_node.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/26 18:19:53 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/08 19:19:45 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 14:28:11 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void ft_lstclear_node(t_node **lst)
     }
 }
 
-t_node	*ft_lstnew_node(char *content)
+t_node	*ft_lstnew_node(void)
 {
 	t_node    *ptr;
 
 	ptr = (t_node *)malloc(sizeof(t_node));
 	if (!(ptr))
 		return (NULL);
-	ptr->token = content;
+	ptr->token = NULL;
 	ptr->flags = NULL;
 	ptr->params = NULL;
 	ptr->redir = NULL;

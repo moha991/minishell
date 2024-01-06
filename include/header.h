@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   header.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:35:31 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/11 19:01:11 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:24:18 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@
 typedef struct s_subnode
 {
 	char				*content;
+	int					quoted_string;
 	struct s_subnode	*next;
 }	t_subnode;
 
 typedef struct s_node
 {
-	char				*token;
+	t_subnode			*token;
 	t_subnode			*flags;
 	t_subnode			*params;
 	t_subnode			*redir;
@@ -64,6 +65,8 @@ typedef struct s_var
 	t_env		*envp;
 	char		*inputline;
 	int			len_inputline;
+	int			quoted_string;
+	int			exit_status;
 	t_node		*tokens;
 }	t_var;
 
@@ -81,12 +84,12 @@ char	*get_str_singlequoted(t_var *var, int *i, int *start);
 char	*get_word(t_var *var, int *i, int *start);
 //list node functions
 void 		ft_lstclear_node(t_node **lst);
-t_node		*ft_lstnew_node(char *content);
+t_node		*ft_lstnew_node(void);
 t_node		*ft_lstlast_node(t_node *lst);
 void		ft_lstadd_back_node(t_node **lst, t_node *new);
 //list subnode functions
 void 		ft_lstclear_subnode(t_subnode **lst);
-t_subnode	*ft_lstnew_subnode(char *content);
+t_subnode	*ft_lstnew_subnode(char *content, int quoted_bool);
 t_subnode	*ft_lstlast_subnode(t_subnode *lst);
 void		ft_lstadd_back_subnode(t_subnode **lst, t_subnode *new);
 //list environment functions
@@ -95,6 +98,7 @@ void	cpy_env(t_env **ptr, const char **envp);
 void 	ft_freeenv(t_env **lst);
 t_env   *new_node_env(const char *line_env);
 void	ft_addback_node_env(t_env **lst, t_env *new);
+char	**envlist_to_array(t_env *envlist);
 //redir func
 void	handleOutFileRedirection(t_var *var);
 //void	handleInFileRedirection(t_var *var);

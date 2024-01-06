@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   maintest.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 19:43:49 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/11 18:14:06 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 19:28:28 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,12 @@
 
 static void		init_values(t_var *var)
 {
-	var->tokens = ft_lstnew_node(NULL);
+	var->tokens = ft_lstnew_node();
 	var->fd_in = 0;
 	var->fd_out = 0;
 	var->len_inputline = ft_strlen(var->inputline);
+	var->exit_status = 0;
+	var->quoted_string = 0;
 }
 
 static  void	get_inputline(t_var *var)
@@ -32,11 +34,8 @@ static  void	get_inputline(t_var *var)
 		return ;
 	}
 	if (ft_strncmp(str, "clear\0", 6) == 0)
-	{
-		free(str);
 		clear_history();
-	}
-	if (ft_strncmp(str, "exit\0", 5) == 0)
+	if (ft_strncmp(str, "exit\0", 5) == 0 || ft_strncmp(str, "exit\n", 5) == 0)
 	{	
 		free(str);
 		ft_freeenv(&var->envp);
@@ -55,7 +54,7 @@ static void printNode(t_node *node)
         return;
     }
 	printf("\tNODE:\n");
-    printf("Token: %s\n", node->token);
+    printf("Token: %s\n", node->token->content);
 
     // Print flags
     printf("Flags: ");
@@ -133,3 +132,10 @@ int	main(int argc, char **argv,const char **envp)
 	ft_freeenv(&var.envp);
 	return (0);
 }
+
+// PIPE
+// LESS <
+// DLESS <<
+// GREAT >
+// DGREAT >>
+// WORD

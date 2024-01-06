@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 17:11:22 by mohafnh           #+#    #+#             */
-/*   Updated: 2023/12/08 14:36:53 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 16:20:51 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,40 @@ static	int append_to_env(t_var *var, char *expr, int flag)
     return (0);
 }
 
+static	int	show_values_alpha(t_var *var)
+{
+	char	**envp;
+	char	*tmp;
+	int		i;
+	int		j;
+
+	i = 0;
+	envp = envlist_to_array(var->envp);
+	while (envp[i])
+	{
+		j = 0;
+		while (envp[j])
+		{
+
+			if (ft_strncmp(envp[i], envp[j], ft_strlen(envp[i])) < 0)
+			{//printf("%s VA POR DELANTE DE %s\n", envp[j], envp[i]);
+				tmp = envp[i];
+				envp[i] = envp[j];
+				envp[j] = tmp;
+			}
+			j++;
+		}
+		i++;
+	}
+	i = -1;
+	while (envp[++i])
+		ft_printf("declare -x %s\n", envp[i]);
+	return (0);
+}
+
 // /* 
 // export [name[=value]]
 // */
-
 int export(t_var *var)
 {
     t_subnode 	*tmp;
@@ -84,7 +114,7 @@ int export(t_var *var)
 		return (1);
 	}
 	if (!tmp && !var->tokens->redir && !var->tokens->where_redir)
-		return (env(var));  // ejecutar export sin args, mostrar env.
+		return (show_values_alpha(var));  // ejecutar export sin args, mostrar env en orden alphabetico
 	while (tmp)//iterar en los params del nodo export.
 	{
 		if (isvalid_namevar(tmp->content))// verificar que sea alphanum o '_'

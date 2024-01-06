@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lst_funcs_subnode.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: smagniny <santi.mag777@student.42madrid    +#+  +:+       +#+        */
+/*   By: smagniny <smagniny@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 18:11:33 by smagniny          #+#    #+#             */
-/*   Updated: 2023/12/08 20:01:35 by smagniny         ###   ########.fr       */
+/*   Updated: 2024/01/06 13:52:51 by smagniny         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void ft_lstclear_subnode(t_subnode **lst)
 	}
 }
 
-t_subnode	*ft_lstnew_subnode(char *content)
+t_subnode	*ft_lstnew_subnode(char *content, int quoted_bool)
 {
 	t_subnode    *ptr;
 
@@ -36,6 +36,7 @@ t_subnode	*ft_lstnew_subnode(char *content)
 	if (!(ptr))
 		return (NULL);
 	ptr->content = ft_strdup(content);
+	ptr->quoted_string = quoted_bool;
 	ptr->next = NULL;
 	free(content);
 	return (ptr);
